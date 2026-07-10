@@ -7,8 +7,8 @@ class WodPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: Text(
-        "Generador de WOD",
-        style: TextStyle(fontSize: 26),
+        '💪 Generar WOD',
+        style: TextStyle(fontSize: 24),
       ),
     );
   }

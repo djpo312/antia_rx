@@ -7,8 +7,8 @@ class HistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: Text(
-        "Historial",
-        style: TextStyle(fontSize: 26),
+        '📈 Historial',
+        style: TextStyle(fontSize: 24),
       ),
     );
   }
