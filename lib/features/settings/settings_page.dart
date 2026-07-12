@@ -6,10 +6,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text(
-        '⚙️ Configuración',
-        style: TextStyle(fontSize: 24),
-      ),
+      child: Text('⚙️ Configuración', style: TextStyle(fontSize: 24)),
     );
   }
 }

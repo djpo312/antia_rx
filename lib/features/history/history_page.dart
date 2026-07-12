@@ -5,10 +5,10 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        '📈 Historial',
-        style: TextStyle(fontSize: 24),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Historial')),
+      body: const Center(
+        child: Text('Historial', style: TextStyle(fontSize: 24)),
       ),
     );
   }
