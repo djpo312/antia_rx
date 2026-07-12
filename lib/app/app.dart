@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../features/dashboard/dashboard_page.dart';
+import '../features/home/home_page.dart';
 import 'theme.dart';
 
 class VidaAsistenteApp extends StatelessWidget {
@@ -12,7 +12,7 @@ class VidaAsistenteApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Vida Asistente',
       theme: AppTheme.light,
-      home: const DashboardPage(),
+      home: const HomePage(),
     );
   }
 }
