@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../data/sample_workouts.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -33,6 +34,48 @@ class DashboardPage extends StatelessWidget {
             _menuCard(Icons.local_fire_department, "Hyrox", Colors.red),
 
             _menuCard(Icons.sports_gymnastics, "Gimnasio", Colors.blue),
+
+            const SizedBox(height: 20),
+
+            Card(
+              elevation: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "🔥 WOD del día",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    Text(
+                      crossfitWorkout.title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+
+                    const Divider(),
+
+                    ...crossfitWorkout.exercises.map(
+                      (exercise) => ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: const Icon(Icons.check_circle_outline),
+                        title: Text(exercise.name),
+                        subtitle: Text(exercise.description),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
 
             const SizedBox(height: 25),
 
