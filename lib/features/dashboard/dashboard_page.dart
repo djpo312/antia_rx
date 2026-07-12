@@ -6,6 +6,8 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final crossfitWorkout = sampleWorkouts.first;
+
     return Scaffold(
       appBar: AppBar(title: const Text("Vida Asistente")),
       body: SingleChildScrollView(
@@ -17,22 +19,16 @@ class DashboardPage extends StatelessWidget {
               "Hola Danny 👋",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-
             const SizedBox(height: 8),
-
             const Text(
               "¿Qué quieres entrenar hoy?",
               style: TextStyle(fontSize: 18, color: Colors.grey),
             ),
-
             const SizedBox(height: 25),
 
             _menuCard(Icons.fitness_center, "CrossFit", Colors.orange),
-
             _menuCard(Icons.directions_run, "Running", Colors.green),
-
             _menuCard(Icons.local_fire_department, "Hyrox", Colors.red),
-
             _menuCard(Icons.sports_gymnastics, "Gimnasio", Colors.blue),
 
             const SizedBox(height: 20),
@@ -51,7 +47,6 @@ class DashboardPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     const SizedBox(height: 10),
 
                     Text(
@@ -69,7 +64,9 @@ class DashboardPage extends StatelessWidget {
                         contentPadding: EdgeInsets.zero,
                         leading: const Icon(Icons.check_circle_outline),
                         title: Text(exercise.name),
-                        subtitle: Text(exercise.description),
+                        subtitle: Text(
+                          "${exercise.sets} series de ${exercise.reps} repeticiones",
+                        ),
                       ),
                     ),
                   ],
@@ -82,10 +79,10 @@ class DashboardPage extends StatelessWidget {
             Card(
               elevation: 3,
               child: Padding(
-                padding: EdgeInsets.all(18),
+                padding: const EdgeInsets.all(18),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       "Resumen semanal",
                       style: TextStyle(
@@ -93,15 +90,10 @@ class DashboardPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     SizedBox(height: 15),
-
                     Text("🏋 Entrenamientos: 0"),
-
                     Text("🔥 Calorías: 0"),
-
                     Text("⏱ Tiempo: 0 min"),
-
                     Text("🏆 PR nuevos: 0"),
                   ],
                 ),
