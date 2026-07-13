@@ -5,13 +5,15 @@ import '../crossfit/crossfit_page.dart';
 import '../gym/gym_page.dart';
 import '../hyrox/hyrox_page.dart';
 import '../running/running_page.dart';
+import '../../repositories/crossfit_repository.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final crossfitWorkout = sampleWorkouts.first;
+    final repository = CrossfitRepository();
+    final crossfitWorkout = repository.getTodayWorkout();
 
     return Scaffold(
       appBar: AppBar(title: const Text("Vida Asistente")),

@@ -1,0 +1,47 @@
+[
+  {
+    "code": "CF0001",
+    "name": "Air Squat",
+    "category": "CrossFit",
+    "movementPattern": "Squat",
+    "equipment": "Bodyweight",
+    "difficulty": "Beginner",
+    "description": "Sentadilla con peso corporal"
+  },
+  {
+    "code": "CF0002",
+    "name": "Thruster",
+    "category": "CrossFit",
+    "movementPattern": "Push",
+    "equipment": "Barbell",
+    "difficulty": "Intermediate",
+    "description": "Front Squat + Push Press"
+  },
+  {
+    "code": "CF0003",
+    "name": "Burpee",
+    "category": "CrossFit",
+    "movementPattern": "Conditioning",
+    "equipment": "Bodyweight",
+    "difficulty": "Beginner",
+    "description": "Burpee completo"
+  },
+  {
+    "code": "CF0004",
+    "name": "Pull-up",
+    "category": "CrossFit",
+    "movementPattern": "Pull",
+    "equipment": "Pull-up Bar",
+    "difficulty": "Intermediate",
+    "description": "Dominada estricta"
+  },
+  {
+    "code": "CF0005",
+    "name": "Deadlift",
+    "category": "CrossFit",
+    "movementPattern": "Hinge",
+    "equipment": "Barbell",
+    "difficulty": "Intermediate",
+    "description": "Peso muerto"
+  }
+]
