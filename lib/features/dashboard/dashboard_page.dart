@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-
 import '../../data/sample_workouts.dart';
 import '../crossfit/crossfit_page.dart';
 import '../gym/gym_page.dart';
 import '../hyrox/hyrox_page.dart';
 import '../running/running_page.dart';
-import '../../repositories/crossfit_repository.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final repository = CrossfitRepository();
-    final crossfitWorkout = repository.getTodayWorkout();
+    final crossfitWorkout = sampleWorkouts.first;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Vida Asistente")),

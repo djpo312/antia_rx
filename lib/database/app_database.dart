@@ -51,6 +51,15 @@ class Exercises extends Table {
   TextColumn get imageUrl => text().nullable()();
 
   BoolColumn get isActive => boolean().withDefault(const Constant(true))();
+  BoolColumn get isWarmup => boolean().withDefault(const Constant(false))();
+
+  BoolColumn get isStrength => boolean().withDefault(const Constant(false))();
+
+  BoolColumn get isMetcon => boolean().withDefault(const Constant(false))();
+
+  BoolColumn get isAccessory => boolean().withDefault(const Constant(false))();
+
+  BoolColumn get isCooldown => boolean().withDefault(const Constant(false))();
 }
 
 class Workouts extends Table {
@@ -78,6 +87,9 @@ class WorkoutExercises extends Table {
 
   IntColumn get exerciseId => integer()();
 
+  // NUEVO CAMPO
+  IntColumn get sectionId => integer()();
+
   IntColumn get orderIndex => integer()();
 
   IntColumn get sets => integer()();
@@ -97,6 +109,10 @@ class WorkoutExercises extends Table {
     Equipment,
     DifficultyLevels,
     MovementPatterns,
+    WorkoutSections,
+    MuscleGroups,
+    ExerciseTags,
+    ExerciseTagRelations,
     Exercises,
     Workouts,
     WorkoutExercises,
@@ -118,6 +134,32 @@ class AppDatabase extends _$AppDatabase {
   Future<void> deleteAllExercises() {
     return delete(exercises).go();
   }
+}
+
+class WorkoutSections extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  TextColumn get name => text()();
+
+  IntColumn get orderIndex => integer()();
+}
+
+class MuscleGroups extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text().unique()();
+}
+
+class ExerciseTags extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text().unique()();
+}
+
+class ExerciseTagRelations extends Table {
+  IntColumn get exerciseId => integer()();
+  IntColumn get tagId => integer()();
+
+  @override
+  Set<Column> get primaryKey => {exerciseId, tagId};
 }
 
 LazyDatabase _openConnection() {

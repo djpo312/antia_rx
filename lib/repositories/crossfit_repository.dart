@@ -1,12 +1,23 @@
-import '../features/crossfit/workouts.dart';
-import '../models/workout.dart';
+import '../database/app_database.dart';
 
-class CrossfitRepository {
-  List<Workout> getAll() {
-    return sampleWorkouts;
+class ExerciseRepository {
+  final AppDatabase database;
+
+  ExerciseRepository(this.database);
+
+  Future<List<Exercise>> getAll() {
+    return database.getAllExercises();
   }
 
-  Workout getTodayWorkout() {
-    return sampleWorkouts.first;
+  Future<List<Exercise>> getByCategory(int categoryId) {
+    return (database.select(
+      database.exercises,
+    )..where((e) => e.categoryId.equals(categoryId))).get();
+  }
+
+  Future<List<Exercise>> getByDifficulty(int difficultyId) {
+    return (database.select(
+      database.exercises,
+    )..where((e) => e.difficultyId.equals(difficultyId))).get();
   }
 }
