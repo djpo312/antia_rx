@@ -1673,6 +1673,9 @@ class $ExercisesTable extends Exercises
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES categories (id)',
+    ),
   );
   static const VerificationMeta _equipmentIdMeta = const VerificationMeta(
     'equipmentId',
@@ -1684,6 +1687,9 @@ class $ExercisesTable extends Exercises
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES equipment (id)',
+    ),
   );
   static const VerificationMeta _difficultyIdMeta = const VerificationMeta(
     'difficultyId',
@@ -1695,6 +1701,9 @@ class $ExercisesTable extends Exercises
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES difficulty_levels (id)',
+    ),
   );
   static const VerificationMeta _movementPatternIdMeta = const VerificationMeta(
     'movementPatternId',
@@ -1706,6 +1715,9 @@ class $ExercisesTable extends Exercises
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES movement_patterns (id)',
+    ),
   );
   static const VerificationMeta _instructionsMeta = const VerificationMeta(
     'instructions',
@@ -1740,21 +1752,6 @@ class $ExercisesTable extends Exercises
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _isActiveMeta = const VerificationMeta(
-    'isActive',
-  );
-  @override
-  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
-    'is_active',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("is_active" IN (0, 1))',
-    ),
-    defaultValue: const Constant(true),
-  );
   static const VerificationMeta _isWarmupMeta = const VerificationMeta(
     'isWarmup',
   );
@@ -1767,6 +1764,21 @@ class $ExercisesTable extends Exercises
     requiredDuringInsert: false,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'CHECK ("is_warmup" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _isMobilityMeta = const VerificationMeta(
+    'isMobility',
+  );
+  @override
+  late final GeneratedColumn<bool> isMobility = GeneratedColumn<bool>(
+    'is_mobility',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_mobility" IN (0, 1))',
     ),
     defaultValue: const Constant(false),
   );
@@ -1785,18 +1797,31 @@ class $ExercisesTable extends Exercises
     ),
     defaultValue: const Constant(false),
   );
-  static const VerificationMeta _isMetconMeta = const VerificationMeta(
-    'isMetcon',
+  static const VerificationMeta _isSkillMeta = const VerificationMeta(
+    'isSkill',
   );
   @override
-  late final GeneratedColumn<bool> isMetcon = GeneratedColumn<bool>(
-    'is_metcon',
+  late final GeneratedColumn<bool> isSkill = GeneratedColumn<bool>(
+    'is_skill',
     aliasedName,
     false,
     type: DriftSqlType.bool,
     requiredDuringInsert: false,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("is_metcon" IN (0, 1))',
+      'CHECK ("is_skill" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _isWodMeta = const VerificationMeta('isWod');
+  @override
+  late final GeneratedColumn<bool> isWod = GeneratedColumn<bool>(
+    'is_wod',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_wod" IN (0, 1))',
     ),
     defaultValue: const Constant(false),
   );
@@ -1843,10 +1868,11 @@ class $ExercisesTable extends Exercises
     instructions,
     videoUrl,
     imageUrl,
-    isActive,
     isWarmup,
+    isMobility,
     isStrength,
-    isMetcon,
+    isSkill,
+    isWod,
     isAccessory,
     isCooldown,
   ];
@@ -1956,16 +1982,16 @@ class $ExercisesTable extends Exercises
         imageUrl.isAcceptableOrUnknown(data['image_url']!, _imageUrlMeta),
       );
     }
-    if (data.containsKey('is_active')) {
-      context.handle(
-        _isActiveMeta,
-        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
-      );
-    }
     if (data.containsKey('is_warmup')) {
       context.handle(
         _isWarmupMeta,
         isWarmup.isAcceptableOrUnknown(data['is_warmup']!, _isWarmupMeta),
+      );
+    }
+    if (data.containsKey('is_mobility')) {
+      context.handle(
+        _isMobilityMeta,
+        isMobility.isAcceptableOrUnknown(data['is_mobility']!, _isMobilityMeta),
       );
     }
     if (data.containsKey('is_strength')) {
@@ -1974,10 +2000,16 @@ class $ExercisesTable extends Exercises
         isStrength.isAcceptableOrUnknown(data['is_strength']!, _isStrengthMeta),
       );
     }
-    if (data.containsKey('is_metcon')) {
+    if (data.containsKey('is_skill')) {
       context.handle(
-        _isMetconMeta,
-        isMetcon.isAcceptableOrUnknown(data['is_metcon']!, _isMetconMeta),
+        _isSkillMeta,
+        isSkill.isAcceptableOrUnknown(data['is_skill']!, _isSkillMeta),
+      );
+    }
+    if (data.containsKey('is_wod')) {
+      context.handle(
+        _isWodMeta,
+        isWod.isAcceptableOrUnknown(data['is_wod']!, _isWodMeta),
       );
     }
     if (data.containsKey('is_accessory')) {
@@ -2048,21 +2080,25 @@ class $ExercisesTable extends Exercises
         DriftSqlType.string,
         data['${effectivePrefix}image_url'],
       ),
-      isActive: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}is_active'],
-      )!,
       isWarmup: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}is_warmup'],
+      )!,
+      isMobility: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_mobility'],
       )!,
       isStrength: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}is_strength'],
       )!,
-      isMetcon: attachedDatabase.typeMapping.read(
+      isSkill: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
-        data['${effectivePrefix}is_metcon'],
+        data['${effectivePrefix}is_skill'],
+      )!,
+      isWod: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_wod'],
       )!,
       isAccessory: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
@@ -2093,10 +2129,11 @@ class Exercise extends DataClass implements Insertable<Exercise> {
   final String instructions;
   final String? videoUrl;
   final String? imageUrl;
-  final bool isActive;
   final bool isWarmup;
+  final bool isMobility;
   final bool isStrength;
-  final bool isMetcon;
+  final bool isSkill;
+  final bool isWod;
   final bool isAccessory;
   final bool isCooldown;
   const Exercise({
@@ -2111,10 +2148,11 @@ class Exercise extends DataClass implements Insertable<Exercise> {
     required this.instructions,
     this.videoUrl,
     this.imageUrl,
-    required this.isActive,
     required this.isWarmup,
+    required this.isMobility,
     required this.isStrength,
-    required this.isMetcon,
+    required this.isSkill,
+    required this.isWod,
     required this.isAccessory,
     required this.isCooldown,
   });
@@ -2136,10 +2174,11 @@ class Exercise extends DataClass implements Insertable<Exercise> {
     if (!nullToAbsent || imageUrl != null) {
       map['image_url'] = Variable<String>(imageUrl);
     }
-    map['is_active'] = Variable<bool>(isActive);
     map['is_warmup'] = Variable<bool>(isWarmup);
+    map['is_mobility'] = Variable<bool>(isMobility);
     map['is_strength'] = Variable<bool>(isStrength);
-    map['is_metcon'] = Variable<bool>(isMetcon);
+    map['is_skill'] = Variable<bool>(isSkill);
+    map['is_wod'] = Variable<bool>(isWod);
     map['is_accessory'] = Variable<bool>(isAccessory);
     map['is_cooldown'] = Variable<bool>(isCooldown);
     return map;
@@ -2162,10 +2201,11 @@ class Exercise extends DataClass implements Insertable<Exercise> {
       imageUrl: imageUrl == null && nullToAbsent
           ? const Value.absent()
           : Value(imageUrl),
-      isActive: Value(isActive),
       isWarmup: Value(isWarmup),
+      isMobility: Value(isMobility),
       isStrength: Value(isStrength),
-      isMetcon: Value(isMetcon),
+      isSkill: Value(isSkill),
+      isWod: Value(isWod),
       isAccessory: Value(isAccessory),
       isCooldown: Value(isCooldown),
     );
@@ -2188,10 +2228,11 @@ class Exercise extends DataClass implements Insertable<Exercise> {
       instructions: serializer.fromJson<String>(json['instructions']),
       videoUrl: serializer.fromJson<String?>(json['videoUrl']),
       imageUrl: serializer.fromJson<String?>(json['imageUrl']),
-      isActive: serializer.fromJson<bool>(json['isActive']),
       isWarmup: serializer.fromJson<bool>(json['isWarmup']),
+      isMobility: serializer.fromJson<bool>(json['isMobility']),
       isStrength: serializer.fromJson<bool>(json['isStrength']),
-      isMetcon: serializer.fromJson<bool>(json['isMetcon']),
+      isSkill: serializer.fromJson<bool>(json['isSkill']),
+      isWod: serializer.fromJson<bool>(json['isWod']),
       isAccessory: serializer.fromJson<bool>(json['isAccessory']),
       isCooldown: serializer.fromJson<bool>(json['isCooldown']),
     );
@@ -2211,10 +2252,11 @@ class Exercise extends DataClass implements Insertable<Exercise> {
       'instructions': serializer.toJson<String>(instructions),
       'videoUrl': serializer.toJson<String?>(videoUrl),
       'imageUrl': serializer.toJson<String?>(imageUrl),
-      'isActive': serializer.toJson<bool>(isActive),
       'isWarmup': serializer.toJson<bool>(isWarmup),
+      'isMobility': serializer.toJson<bool>(isMobility),
       'isStrength': serializer.toJson<bool>(isStrength),
-      'isMetcon': serializer.toJson<bool>(isMetcon),
+      'isSkill': serializer.toJson<bool>(isSkill),
+      'isWod': serializer.toJson<bool>(isWod),
       'isAccessory': serializer.toJson<bool>(isAccessory),
       'isCooldown': serializer.toJson<bool>(isCooldown),
     };
@@ -2232,10 +2274,11 @@ class Exercise extends DataClass implements Insertable<Exercise> {
     String? instructions,
     Value<String?> videoUrl = const Value.absent(),
     Value<String?> imageUrl = const Value.absent(),
-    bool? isActive,
     bool? isWarmup,
+    bool? isMobility,
     bool? isStrength,
-    bool? isMetcon,
+    bool? isSkill,
+    bool? isWod,
     bool? isAccessory,
     bool? isCooldown,
   }) => Exercise(
@@ -2250,10 +2293,11 @@ class Exercise extends DataClass implements Insertable<Exercise> {
     instructions: instructions ?? this.instructions,
     videoUrl: videoUrl.present ? videoUrl.value : this.videoUrl,
     imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
-    isActive: isActive ?? this.isActive,
     isWarmup: isWarmup ?? this.isWarmup,
+    isMobility: isMobility ?? this.isMobility,
     isStrength: isStrength ?? this.isStrength,
-    isMetcon: isMetcon ?? this.isMetcon,
+    isSkill: isSkill ?? this.isSkill,
+    isWod: isWod ?? this.isWod,
     isAccessory: isAccessory ?? this.isAccessory,
     isCooldown: isCooldown ?? this.isCooldown,
   );
@@ -2282,12 +2326,15 @@ class Exercise extends DataClass implements Insertable<Exercise> {
           : this.instructions,
       videoUrl: data.videoUrl.present ? data.videoUrl.value : this.videoUrl,
       imageUrl: data.imageUrl.present ? data.imageUrl.value : this.imageUrl,
-      isActive: data.isActive.present ? data.isActive.value : this.isActive,
       isWarmup: data.isWarmup.present ? data.isWarmup.value : this.isWarmup,
+      isMobility: data.isMobility.present
+          ? data.isMobility.value
+          : this.isMobility,
       isStrength: data.isStrength.present
           ? data.isStrength.value
           : this.isStrength,
-      isMetcon: data.isMetcon.present ? data.isMetcon.value : this.isMetcon,
+      isSkill: data.isSkill.present ? data.isSkill.value : this.isSkill,
+      isWod: data.isWod.present ? data.isWod.value : this.isWod,
       isAccessory: data.isAccessory.present
           ? data.isAccessory.value
           : this.isAccessory,
@@ -2311,10 +2358,11 @@ class Exercise extends DataClass implements Insertable<Exercise> {
           ..write('instructions: $instructions, ')
           ..write('videoUrl: $videoUrl, ')
           ..write('imageUrl: $imageUrl, ')
-          ..write('isActive: $isActive, ')
           ..write('isWarmup: $isWarmup, ')
+          ..write('isMobility: $isMobility, ')
           ..write('isStrength: $isStrength, ')
-          ..write('isMetcon: $isMetcon, ')
+          ..write('isSkill: $isSkill, ')
+          ..write('isWod: $isWod, ')
           ..write('isAccessory: $isAccessory, ')
           ..write('isCooldown: $isCooldown')
           ..write(')'))
@@ -2334,10 +2382,11 @@ class Exercise extends DataClass implements Insertable<Exercise> {
     instructions,
     videoUrl,
     imageUrl,
-    isActive,
     isWarmup,
+    isMobility,
     isStrength,
-    isMetcon,
+    isSkill,
+    isWod,
     isAccessory,
     isCooldown,
   );
@@ -2356,10 +2405,11 @@ class Exercise extends DataClass implements Insertable<Exercise> {
           other.instructions == this.instructions &&
           other.videoUrl == this.videoUrl &&
           other.imageUrl == this.imageUrl &&
-          other.isActive == this.isActive &&
           other.isWarmup == this.isWarmup &&
+          other.isMobility == this.isMobility &&
           other.isStrength == this.isStrength &&
-          other.isMetcon == this.isMetcon &&
+          other.isSkill == this.isSkill &&
+          other.isWod == this.isWod &&
           other.isAccessory == this.isAccessory &&
           other.isCooldown == this.isCooldown);
 }
@@ -2376,10 +2426,11 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
   final Value<String> instructions;
   final Value<String?> videoUrl;
   final Value<String?> imageUrl;
-  final Value<bool> isActive;
   final Value<bool> isWarmup;
+  final Value<bool> isMobility;
   final Value<bool> isStrength;
-  final Value<bool> isMetcon;
+  final Value<bool> isSkill;
+  final Value<bool> isWod;
   final Value<bool> isAccessory;
   final Value<bool> isCooldown;
   const ExercisesCompanion({
@@ -2394,10 +2445,11 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
     this.instructions = const Value.absent(),
     this.videoUrl = const Value.absent(),
     this.imageUrl = const Value.absent(),
-    this.isActive = const Value.absent(),
     this.isWarmup = const Value.absent(),
+    this.isMobility = const Value.absent(),
     this.isStrength = const Value.absent(),
-    this.isMetcon = const Value.absent(),
+    this.isSkill = const Value.absent(),
+    this.isWod = const Value.absent(),
     this.isAccessory = const Value.absent(),
     this.isCooldown = const Value.absent(),
   });
@@ -2413,10 +2465,11 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
     required String instructions,
     this.videoUrl = const Value.absent(),
     this.imageUrl = const Value.absent(),
-    this.isActive = const Value.absent(),
     this.isWarmup = const Value.absent(),
+    this.isMobility = const Value.absent(),
     this.isStrength = const Value.absent(),
-    this.isMetcon = const Value.absent(),
+    this.isSkill = const Value.absent(),
+    this.isWod = const Value.absent(),
     this.isAccessory = const Value.absent(),
     this.isCooldown = const Value.absent(),
   }) : code = Value(code),
@@ -2439,10 +2492,11 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
     Expression<String>? instructions,
     Expression<String>? videoUrl,
     Expression<String>? imageUrl,
-    Expression<bool>? isActive,
     Expression<bool>? isWarmup,
+    Expression<bool>? isMobility,
     Expression<bool>? isStrength,
-    Expression<bool>? isMetcon,
+    Expression<bool>? isSkill,
+    Expression<bool>? isWod,
     Expression<bool>? isAccessory,
     Expression<bool>? isCooldown,
   }) {
@@ -2458,10 +2512,11 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
       if (instructions != null) 'instructions': instructions,
       if (videoUrl != null) 'video_url': videoUrl,
       if (imageUrl != null) 'image_url': imageUrl,
-      if (isActive != null) 'is_active': isActive,
       if (isWarmup != null) 'is_warmup': isWarmup,
+      if (isMobility != null) 'is_mobility': isMobility,
       if (isStrength != null) 'is_strength': isStrength,
-      if (isMetcon != null) 'is_metcon': isMetcon,
+      if (isSkill != null) 'is_skill': isSkill,
+      if (isWod != null) 'is_wod': isWod,
       if (isAccessory != null) 'is_accessory': isAccessory,
       if (isCooldown != null) 'is_cooldown': isCooldown,
     });
@@ -2479,10 +2534,11 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
     Value<String>? instructions,
     Value<String?>? videoUrl,
     Value<String?>? imageUrl,
-    Value<bool>? isActive,
     Value<bool>? isWarmup,
+    Value<bool>? isMobility,
     Value<bool>? isStrength,
-    Value<bool>? isMetcon,
+    Value<bool>? isSkill,
+    Value<bool>? isWod,
     Value<bool>? isAccessory,
     Value<bool>? isCooldown,
   }) {
@@ -2498,10 +2554,11 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
       instructions: instructions ?? this.instructions,
       videoUrl: videoUrl ?? this.videoUrl,
       imageUrl: imageUrl ?? this.imageUrl,
-      isActive: isActive ?? this.isActive,
       isWarmup: isWarmup ?? this.isWarmup,
+      isMobility: isMobility ?? this.isMobility,
       isStrength: isStrength ?? this.isStrength,
-      isMetcon: isMetcon ?? this.isMetcon,
+      isSkill: isSkill ?? this.isSkill,
+      isWod: isWod ?? this.isWod,
       isAccessory: isAccessory ?? this.isAccessory,
       isCooldown: isCooldown ?? this.isCooldown,
     );
@@ -2543,17 +2600,20 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
     if (imageUrl.present) {
       map['image_url'] = Variable<String>(imageUrl.value);
     }
-    if (isActive.present) {
-      map['is_active'] = Variable<bool>(isActive.value);
-    }
     if (isWarmup.present) {
       map['is_warmup'] = Variable<bool>(isWarmup.value);
+    }
+    if (isMobility.present) {
+      map['is_mobility'] = Variable<bool>(isMobility.value);
     }
     if (isStrength.present) {
       map['is_strength'] = Variable<bool>(isStrength.value);
     }
-    if (isMetcon.present) {
-      map['is_metcon'] = Variable<bool>(isMetcon.value);
+    if (isSkill.present) {
+      map['is_skill'] = Variable<bool>(isSkill.value);
+    }
+    if (isWod.present) {
+      map['is_wod'] = Variable<bool>(isWod.value);
     }
     if (isAccessory.present) {
       map['is_accessory'] = Variable<bool>(isAccessory.value);
@@ -2578,10 +2638,11 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
           ..write('instructions: $instructions, ')
           ..write('videoUrl: $videoUrl, ')
           ..write('imageUrl: $imageUrl, ')
-          ..write('isActive: $isActive, ')
           ..write('isWarmup: $isWarmup, ')
+          ..write('isMobility: $isMobility, ')
           ..write('isStrength: $isStrength, ')
-          ..write('isMetcon: $isMetcon, ')
+          ..write('isSkill: $isSkill, ')
+          ..write('isWod: $isWod, ')
           ..write('isAccessory: $isAccessory, ')
           ..write('isCooldown: $isCooldown')
           ..write(')'))
@@ -3748,6 +3809,29 @@ typedef $$CategoriesTableCreateCompanionBuilder =
 typedef $$CategoriesTableUpdateCompanionBuilder =
     CategoriesCompanion Function({Value<int> id, Value<String> name});
 
+final class $$CategoriesTableReferences
+    extends BaseReferences<_$AppDatabase, $CategoriesTable, Category> {
+  $$CategoriesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$ExercisesTable, List<Exercise>>
+  _exercisesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.exercises,
+    aliasName: 'categories__id__exercises__category_id',
+  );
+
+  $$ExercisesTableProcessedTableManager get exercisesRefs {
+    final manager = $$ExercisesTableTableManager(
+      $_db,
+      $_db.exercises,
+    ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_exercisesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
 class $$CategoriesTableFilterComposer
     extends Composer<_$AppDatabase, $CategoriesTable> {
   $$CategoriesTableFilterComposer({
@@ -3766,6 +3850,31 @@ class $$CategoriesTableFilterComposer
     column: $table.name,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> exercisesRefs(
+    Expression<bool> Function($$ExercisesTableFilterComposer f) f,
+  ) {
+    final $$ExercisesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.exercises,
+      getReferencedColumn: (t) => t.categoryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ExercisesTableFilterComposer(
+            $db: $db,
+            $table: $db.exercises,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CategoriesTableOrderingComposer
@@ -3802,6 +3911,31 @@ class $$CategoriesTableAnnotationComposer
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
+
+  Expression<T> exercisesRefs<T extends Object>(
+    Expression<T> Function($$ExercisesTableAnnotationComposer a) f,
+  ) {
+    final $$ExercisesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.exercises,
+      getReferencedColumn: (t) => t.categoryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ExercisesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.exercises,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CategoriesTableTableManager
@@ -3815,9 +3949,9 @@ class $$CategoriesTableTableManager
           $$CategoriesTableAnnotationComposer,
           $$CategoriesTableCreateCompanionBuilder,
           $$CategoriesTableUpdateCompanionBuilder,
-          (Category, BaseReferences<_$AppDatabase, $CategoriesTable, Category>),
+          (Category, $$CategoriesTableReferences),
           Category,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool exercisesRefs})
         > {
   $$CategoriesTableTableManager(_$AppDatabase db, $CategoriesTable table)
     : super(
@@ -3839,9 +3973,43 @@ class $$CategoriesTableTableManager
               ({Value<int> id = const Value.absent(), required String name}) =>
                   CategoriesCompanion.insert(id: id, name: name),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$CategoriesTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({exercisesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (exercisesRefs) db.exercises],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (exercisesRefs)
+                    await $_getPrefetchedData<
+                      Category,
+                      $CategoriesTable,
+                      Exercise
+                    >(
+                      currentTable: table,
+                      referencedTable: $$CategoriesTableReferences
+                          ._exercisesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$CategoriesTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).exercisesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.categoryId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -3856,14 +4024,37 @@ typedef $$CategoriesTableProcessedTableManager =
       $$CategoriesTableAnnotationComposer,
       $$CategoriesTableCreateCompanionBuilder,
       $$CategoriesTableUpdateCompanionBuilder,
-      (Category, BaseReferences<_$AppDatabase, $CategoriesTable, Category>),
+      (Category, $$CategoriesTableReferences),
       Category,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool exercisesRefs})
     >;
 typedef $$EquipmentTableCreateCompanionBuilder =
     EquipmentCompanion Function({Value<int> id, required String name});
 typedef $$EquipmentTableUpdateCompanionBuilder =
     EquipmentCompanion Function({Value<int> id, Value<String> name});
+
+final class $$EquipmentTableReferences
+    extends BaseReferences<_$AppDatabase, $EquipmentTable, EquipmentData> {
+  $$EquipmentTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$ExercisesTable, List<Exercise>>
+  _exercisesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.exercises,
+    aliasName: 'equipment__id__exercises__equipment_id',
+  );
+
+  $$ExercisesTableProcessedTableManager get exercisesRefs {
+    final manager = $$ExercisesTableTableManager(
+      $_db,
+      $_db.exercises,
+    ).filter((f) => f.equipmentId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_exercisesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
 
 class $$EquipmentTableFilterComposer
     extends Composer<_$AppDatabase, $EquipmentTable> {
@@ -3883,6 +4074,31 @@ class $$EquipmentTableFilterComposer
     column: $table.name,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> exercisesRefs(
+    Expression<bool> Function($$ExercisesTableFilterComposer f) f,
+  ) {
+    final $$ExercisesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.exercises,
+      getReferencedColumn: (t) => t.equipmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ExercisesTableFilterComposer(
+            $db: $db,
+            $table: $db.exercises,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$EquipmentTableOrderingComposer
@@ -3919,6 +4135,31 @@ class $$EquipmentTableAnnotationComposer
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
+
+  Expression<T> exercisesRefs<T extends Object>(
+    Expression<T> Function($$ExercisesTableAnnotationComposer a) f,
+  ) {
+    final $$ExercisesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.exercises,
+      getReferencedColumn: (t) => t.equipmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ExercisesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.exercises,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$EquipmentTableTableManager
@@ -3932,12 +4173,9 @@ class $$EquipmentTableTableManager
           $$EquipmentTableAnnotationComposer,
           $$EquipmentTableCreateCompanionBuilder,
           $$EquipmentTableUpdateCompanionBuilder,
-          (
-            EquipmentData,
-            BaseReferences<_$AppDatabase, $EquipmentTable, EquipmentData>,
-          ),
+          (EquipmentData, $$EquipmentTableReferences),
           EquipmentData,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool exercisesRefs})
         > {
   $$EquipmentTableTableManager(_$AppDatabase db, $EquipmentTable table)
     : super(
@@ -3959,9 +4197,45 @@ class $$EquipmentTableTableManager
               ({Value<int> id = const Value.absent(), required String name}) =>
                   EquipmentCompanion.insert(id: id, name: name),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$EquipmentTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({exercisesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (exercisesRefs) db.exercises],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (exercisesRefs)
+                    await $_getPrefetchedData<
+                      EquipmentData,
+                      $EquipmentTable,
+                      Exercise
+                    >(
+                      currentTable: table,
+                      referencedTable: $$EquipmentTableReferences
+                          ._exercisesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$EquipmentTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).exercisesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.equipmentId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -3976,17 +4250,42 @@ typedef $$EquipmentTableProcessedTableManager =
       $$EquipmentTableAnnotationComposer,
       $$EquipmentTableCreateCompanionBuilder,
       $$EquipmentTableUpdateCompanionBuilder,
-      (
-        EquipmentData,
-        BaseReferences<_$AppDatabase, $EquipmentTable, EquipmentData>,
-      ),
+      (EquipmentData, $$EquipmentTableReferences),
       EquipmentData,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool exercisesRefs})
     >;
 typedef $$DifficultyLevelsTableCreateCompanionBuilder =
     DifficultyLevelsCompanion Function({Value<int> id, required String name});
 typedef $$DifficultyLevelsTableUpdateCompanionBuilder =
     DifficultyLevelsCompanion Function({Value<int> id, Value<String> name});
+
+final class $$DifficultyLevelsTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $DifficultyLevelsTable, DifficultyLevel> {
+  $$DifficultyLevelsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$ExercisesTable, List<Exercise>>
+  _exercisesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.exercises,
+    aliasName: 'difficulty_levels__id__exercises__difficulty_id',
+  );
+
+  $$ExercisesTableProcessedTableManager get exercisesRefs {
+    final manager = $$ExercisesTableTableManager(
+      $_db,
+      $_db.exercises,
+    ).filter((f) => f.difficultyId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_exercisesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
 
 class $$DifficultyLevelsTableFilterComposer
     extends Composer<_$AppDatabase, $DifficultyLevelsTable> {
@@ -4006,6 +4305,31 @@ class $$DifficultyLevelsTableFilterComposer
     column: $table.name,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> exercisesRefs(
+    Expression<bool> Function($$ExercisesTableFilterComposer f) f,
+  ) {
+    final $$ExercisesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.exercises,
+      getReferencedColumn: (t) => t.difficultyId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ExercisesTableFilterComposer(
+            $db: $db,
+            $table: $db.exercises,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$DifficultyLevelsTableOrderingComposer
@@ -4042,6 +4366,31 @@ class $$DifficultyLevelsTableAnnotationComposer
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
+
+  Expression<T> exercisesRefs<T extends Object>(
+    Expression<T> Function($$ExercisesTableAnnotationComposer a) f,
+  ) {
+    final $$ExercisesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.exercises,
+      getReferencedColumn: (t) => t.difficultyId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ExercisesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.exercises,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$DifficultyLevelsTableTableManager
@@ -4055,16 +4404,9 @@ class $$DifficultyLevelsTableTableManager
           $$DifficultyLevelsTableAnnotationComposer,
           $$DifficultyLevelsTableCreateCompanionBuilder,
           $$DifficultyLevelsTableUpdateCompanionBuilder,
-          (
-            DifficultyLevel,
-            BaseReferences<
-              _$AppDatabase,
-              $DifficultyLevelsTable,
-              DifficultyLevel
-            >,
-          ),
+          (DifficultyLevel, $$DifficultyLevelsTableReferences),
           DifficultyLevel,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool exercisesRefs})
         > {
   $$DifficultyLevelsTableTableManager(
     _$AppDatabase db,
@@ -4088,9 +4430,45 @@ class $$DifficultyLevelsTableTableManager
               ({Value<int> id = const Value.absent(), required String name}) =>
                   DifficultyLevelsCompanion.insert(id: id, name: name),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DifficultyLevelsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({exercisesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (exercisesRefs) db.exercises],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (exercisesRefs)
+                    await $_getPrefetchedData<
+                      DifficultyLevel,
+                      $DifficultyLevelsTable,
+                      Exercise
+                    >(
+                      currentTable: table,
+                      referencedTable: $$DifficultyLevelsTableReferences
+                          ._exercisesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$DifficultyLevelsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).exercisesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.difficultyId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -4105,17 +4483,42 @@ typedef $$DifficultyLevelsTableProcessedTableManager =
       $$DifficultyLevelsTableAnnotationComposer,
       $$DifficultyLevelsTableCreateCompanionBuilder,
       $$DifficultyLevelsTableUpdateCompanionBuilder,
-      (
-        DifficultyLevel,
-        BaseReferences<_$AppDatabase, $DifficultyLevelsTable, DifficultyLevel>,
-      ),
+      (DifficultyLevel, $$DifficultyLevelsTableReferences),
       DifficultyLevel,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool exercisesRefs})
     >;
 typedef $$MovementPatternsTableCreateCompanionBuilder =
     MovementPatternsCompanion Function({Value<int> id, required String name});
 typedef $$MovementPatternsTableUpdateCompanionBuilder =
     MovementPatternsCompanion Function({Value<int> id, Value<String> name});
+
+final class $$MovementPatternsTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $MovementPatternsTable, MovementPattern> {
+  $$MovementPatternsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$ExercisesTable, List<Exercise>>
+  _exercisesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.exercises,
+    aliasName: 'movement_patterns__id__exercises__movement_pattern_id',
+  );
+
+  $$ExercisesTableProcessedTableManager get exercisesRefs {
+    final manager = $$ExercisesTableTableManager(
+      $_db,
+      $_db.exercises,
+    ).filter((f) => f.movementPatternId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_exercisesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
 
 class $$MovementPatternsTableFilterComposer
     extends Composer<_$AppDatabase, $MovementPatternsTable> {
@@ -4135,6 +4538,31 @@ class $$MovementPatternsTableFilterComposer
     column: $table.name,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> exercisesRefs(
+    Expression<bool> Function($$ExercisesTableFilterComposer f) f,
+  ) {
+    final $$ExercisesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.exercises,
+      getReferencedColumn: (t) => t.movementPatternId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ExercisesTableFilterComposer(
+            $db: $db,
+            $table: $db.exercises,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$MovementPatternsTableOrderingComposer
@@ -4171,6 +4599,31 @@ class $$MovementPatternsTableAnnotationComposer
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
+
+  Expression<T> exercisesRefs<T extends Object>(
+    Expression<T> Function($$ExercisesTableAnnotationComposer a) f,
+  ) {
+    final $$ExercisesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.exercises,
+      getReferencedColumn: (t) => t.movementPatternId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ExercisesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.exercises,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$MovementPatternsTableTableManager
@@ -4184,16 +4637,9 @@ class $$MovementPatternsTableTableManager
           $$MovementPatternsTableAnnotationComposer,
           $$MovementPatternsTableCreateCompanionBuilder,
           $$MovementPatternsTableUpdateCompanionBuilder,
-          (
-            MovementPattern,
-            BaseReferences<
-              _$AppDatabase,
-              $MovementPatternsTable,
-              MovementPattern
-            >,
-          ),
+          (MovementPattern, $$MovementPatternsTableReferences),
           MovementPattern,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool exercisesRefs})
         > {
   $$MovementPatternsTableTableManager(
     _$AppDatabase db,
@@ -4217,9 +4663,45 @@ class $$MovementPatternsTableTableManager
               ({Value<int> id = const Value.absent(), required String name}) =>
                   MovementPatternsCompanion.insert(id: id, name: name),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$MovementPatternsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({exercisesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (exercisesRefs) db.exercises],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (exercisesRefs)
+                    await $_getPrefetchedData<
+                      MovementPattern,
+                      $MovementPatternsTable,
+                      Exercise
+                    >(
+                      currentTable: table,
+                      referencedTable: $$MovementPatternsTableReferences
+                          ._exercisesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$MovementPatternsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).exercisesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.movementPatternId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -4234,12 +4716,9 @@ typedef $$MovementPatternsTableProcessedTableManager =
       $$MovementPatternsTableAnnotationComposer,
       $$MovementPatternsTableCreateCompanionBuilder,
       $$MovementPatternsTableUpdateCompanionBuilder,
-      (
-        MovementPattern,
-        BaseReferences<_$AppDatabase, $MovementPatternsTable, MovementPattern>,
-      ),
+      (MovementPattern, $$MovementPatternsTableReferences),
       MovementPattern,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool exercisesRefs})
     >;
 typedef $$WorkoutSectionsTableCreateCompanionBuilder =
     WorkoutSectionsCompanion Function({
@@ -4825,10 +5304,11 @@ typedef $$ExercisesTableCreateCompanionBuilder =
       required String instructions,
       Value<String?> videoUrl,
       Value<String?> imageUrl,
-      Value<bool> isActive,
       Value<bool> isWarmup,
+      Value<bool> isMobility,
       Value<bool> isStrength,
-      Value<bool> isMetcon,
+      Value<bool> isSkill,
+      Value<bool> isWod,
       Value<bool> isAccessory,
       Value<bool> isCooldown,
     });
@@ -4845,13 +5325,89 @@ typedef $$ExercisesTableUpdateCompanionBuilder =
       Value<String> instructions,
       Value<String?> videoUrl,
       Value<String?> imageUrl,
-      Value<bool> isActive,
       Value<bool> isWarmup,
+      Value<bool> isMobility,
       Value<bool> isStrength,
-      Value<bool> isMetcon,
+      Value<bool> isSkill,
+      Value<bool> isWod,
       Value<bool> isAccessory,
       Value<bool> isCooldown,
     });
+
+final class $$ExercisesTableReferences
+    extends BaseReferences<_$AppDatabase, $ExercisesTable, Exercise> {
+  $$ExercisesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $CategoriesTable _categoryIdTable(_$AppDatabase db) =>
+      db.categories.createAlias('exercises__category_id__categories__id');
+
+  $$CategoriesTableProcessedTableManager get categoryId {
+    final $_column = $_itemColumn<int>('category_id')!;
+
+    final manager = $$CategoriesTableTableManager(
+      $_db,
+      $_db.categories,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_categoryIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $EquipmentTable _equipmentIdTable(_$AppDatabase db) =>
+      db.equipment.createAlias('exercises__equipment_id__equipment__id');
+
+  $$EquipmentTableProcessedTableManager get equipmentId {
+    final $_column = $_itemColumn<int>('equipment_id')!;
+
+    final manager = $$EquipmentTableTableManager(
+      $_db,
+      $_db.equipment,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_equipmentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $DifficultyLevelsTable _difficultyIdTable(_$AppDatabase db) => db
+      .difficultyLevels
+      .createAlias('exercises__difficulty_id__difficulty_levels__id');
+
+  $$DifficultyLevelsTableProcessedTableManager get difficultyId {
+    final $_column = $_itemColumn<int>('difficulty_id')!;
+
+    final manager = $$DifficultyLevelsTableTableManager(
+      $_db,
+      $_db.difficultyLevels,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_difficultyIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $MovementPatternsTable _movementPatternIdTable(_$AppDatabase db) => db
+      .movementPatterns
+      .createAlias('exercises__movement_pattern_id__movement_patterns__id');
+
+  $$MovementPatternsTableProcessedTableManager get movementPatternId {
+    final $_column = $_itemColumn<int>('movement_pattern_id')!;
+
+    final manager = $$MovementPatternsTableTableManager(
+      $_db,
+      $_db.movementPatterns,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_movementPatternIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
 
 class $$ExercisesTableFilterComposer
     extends Composer<_$AppDatabase, $ExercisesTable> {
@@ -4882,26 +5438,6 @@ class $$ExercisesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<int> get categoryId => $composableBuilder(
-    column: $table.categoryId,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get equipmentId => $composableBuilder(
-    column: $table.equipmentId,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get difficultyId => $composableBuilder(
-    column: $table.difficultyId,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get movementPatternId => $composableBuilder(
-    column: $table.movementPatternId,
-    builder: (column) => ColumnFilters(column),
-  );
-
   ColumnFilters<String> get instructions => $composableBuilder(
     column: $table.instructions,
     builder: (column) => ColumnFilters(column),
@@ -4917,13 +5453,13 @@ class $$ExercisesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<bool> get isActive => $composableBuilder(
-    column: $table.isActive,
+  ColumnFilters<bool> get isWarmup => $composableBuilder(
+    column: $table.isWarmup,
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<bool> get isWarmup => $composableBuilder(
-    column: $table.isWarmup,
+  ColumnFilters<bool> get isMobility => $composableBuilder(
+    column: $table.isMobility,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4932,8 +5468,13 @@ class $$ExercisesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<bool> get isMetcon => $composableBuilder(
-    column: $table.isMetcon,
+  ColumnFilters<bool> get isSkill => $composableBuilder(
+    column: $table.isSkill,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isWod => $composableBuilder(
+    column: $table.isWod,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4946,6 +5487,98 @@ class $$ExercisesTableFilterComposer
     column: $table.isCooldown,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$CategoriesTableFilterComposer get categoryId {
+    final $$CategoriesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableFilterComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$EquipmentTableFilterComposer get equipmentId {
+    final $$EquipmentTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentId,
+      referencedTable: $db.equipment,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentTableFilterComposer(
+            $db: $db,
+            $table: $db.equipment,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DifficultyLevelsTableFilterComposer get difficultyId {
+    final $$DifficultyLevelsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.difficultyId,
+      referencedTable: $db.difficultyLevels,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DifficultyLevelsTableFilterComposer(
+            $db: $db,
+            $table: $db.difficultyLevels,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$MovementPatternsTableFilterComposer get movementPatternId {
+    final $$MovementPatternsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.movementPatternId,
+      referencedTable: $db.movementPatterns,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MovementPatternsTableFilterComposer(
+            $db: $db,
+            $table: $db.movementPatterns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ExercisesTableOrderingComposer
@@ -4977,26 +5610,6 @@ class $$ExercisesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<int> get categoryId => $composableBuilder(
-    column: $table.categoryId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get equipmentId => $composableBuilder(
-    column: $table.equipmentId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get difficultyId => $composableBuilder(
-    column: $table.difficultyId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get movementPatternId => $composableBuilder(
-    column: $table.movementPatternId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   ColumnOrderings<String> get instructions => $composableBuilder(
     column: $table.instructions,
     builder: (column) => ColumnOrderings(column),
@@ -5012,13 +5625,13 @@ class $$ExercisesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<bool> get isActive => $composableBuilder(
-    column: $table.isActive,
+  ColumnOrderings<bool> get isWarmup => $composableBuilder(
+    column: $table.isWarmup,
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<bool> get isWarmup => $composableBuilder(
-    column: $table.isWarmup,
+  ColumnOrderings<bool> get isMobility => $composableBuilder(
+    column: $table.isMobility,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -5027,8 +5640,13 @@ class $$ExercisesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<bool> get isMetcon => $composableBuilder(
-    column: $table.isMetcon,
+  ColumnOrderings<bool> get isSkill => $composableBuilder(
+    column: $table.isSkill,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isWod => $composableBuilder(
+    column: $table.isWod,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -5041,6 +5659,98 @@ class $$ExercisesTableOrderingComposer
     column: $table.isCooldown,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$CategoriesTableOrderingComposer get categoryId {
+    final $$CategoriesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableOrderingComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$EquipmentTableOrderingComposer get equipmentId {
+    final $$EquipmentTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentId,
+      referencedTable: $db.equipment,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentTableOrderingComposer(
+            $db: $db,
+            $table: $db.equipment,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DifficultyLevelsTableOrderingComposer get difficultyId {
+    final $$DifficultyLevelsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.difficultyId,
+      referencedTable: $db.difficultyLevels,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DifficultyLevelsTableOrderingComposer(
+            $db: $db,
+            $table: $db.difficultyLevels,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$MovementPatternsTableOrderingComposer get movementPatternId {
+    final $$MovementPatternsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.movementPatternId,
+      referencedTable: $db.movementPatterns,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MovementPatternsTableOrderingComposer(
+            $db: $db,
+            $table: $db.movementPatterns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ExercisesTableAnnotationComposer
@@ -5066,26 +5776,6 @@ class $$ExercisesTableAnnotationComposer
     builder: (column) => column,
   );
 
-  GeneratedColumn<int> get categoryId => $composableBuilder(
-    column: $table.categoryId,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<int> get equipmentId => $composableBuilder(
-    column: $table.equipmentId,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<int> get difficultyId => $composableBuilder(
-    column: $table.difficultyId,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<int> get movementPatternId => $composableBuilder(
-    column: $table.movementPatternId,
-    builder: (column) => column,
-  );
-
   GeneratedColumn<String> get instructions => $composableBuilder(
     column: $table.instructions,
     builder: (column) => column,
@@ -5097,19 +5787,24 @@ class $$ExercisesTableAnnotationComposer
   GeneratedColumn<String> get imageUrl =>
       $composableBuilder(column: $table.imageUrl, builder: (column) => column);
 
-  GeneratedColumn<bool> get isActive =>
-      $composableBuilder(column: $table.isActive, builder: (column) => column);
-
   GeneratedColumn<bool> get isWarmup =>
       $composableBuilder(column: $table.isWarmup, builder: (column) => column);
+
+  GeneratedColumn<bool> get isMobility => $composableBuilder(
+    column: $table.isMobility,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<bool> get isStrength => $composableBuilder(
     column: $table.isStrength,
     builder: (column) => column,
   );
 
-  GeneratedColumn<bool> get isMetcon =>
-      $composableBuilder(column: $table.isMetcon, builder: (column) => column);
+  GeneratedColumn<bool> get isSkill =>
+      $composableBuilder(column: $table.isSkill, builder: (column) => column);
+
+  GeneratedColumn<bool> get isWod =>
+      $composableBuilder(column: $table.isWod, builder: (column) => column);
 
   GeneratedColumn<bool> get isAccessory => $composableBuilder(
     column: $table.isAccessory,
@@ -5120,6 +5815,98 @@ class $$ExercisesTableAnnotationComposer
     column: $table.isCooldown,
     builder: (column) => column,
   );
+
+  $$CategoriesTableAnnotationComposer get categoryId {
+    final $$CategoriesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$EquipmentTableAnnotationComposer get equipmentId {
+    final $$EquipmentTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentId,
+      referencedTable: $db.equipment,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentTableAnnotationComposer(
+            $db: $db,
+            $table: $db.equipment,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DifficultyLevelsTableAnnotationComposer get difficultyId {
+    final $$DifficultyLevelsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.difficultyId,
+      referencedTable: $db.difficultyLevels,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DifficultyLevelsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.difficultyLevels,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$MovementPatternsTableAnnotationComposer get movementPatternId {
+    final $$MovementPatternsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.movementPatternId,
+      referencedTable: $db.movementPatterns,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$MovementPatternsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.movementPatterns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ExercisesTableTableManager
@@ -5133,9 +5920,14 @@ class $$ExercisesTableTableManager
           $$ExercisesTableAnnotationComposer,
           $$ExercisesTableCreateCompanionBuilder,
           $$ExercisesTableUpdateCompanionBuilder,
-          (Exercise, BaseReferences<_$AppDatabase, $ExercisesTable, Exercise>),
+          (Exercise, $$ExercisesTableReferences),
           Exercise,
-          PrefetchHooks Function()
+          PrefetchHooks Function({
+            bool categoryId,
+            bool equipmentId,
+            bool difficultyId,
+            bool movementPatternId,
+          })
         > {
   $$ExercisesTableTableManager(_$AppDatabase db, $ExercisesTable table)
     : super(
@@ -5161,10 +5953,11 @@ class $$ExercisesTableTableManager
                 Value<String> instructions = const Value.absent(),
                 Value<String?> videoUrl = const Value.absent(),
                 Value<String?> imageUrl = const Value.absent(),
-                Value<bool> isActive = const Value.absent(),
                 Value<bool> isWarmup = const Value.absent(),
+                Value<bool> isMobility = const Value.absent(),
                 Value<bool> isStrength = const Value.absent(),
-                Value<bool> isMetcon = const Value.absent(),
+                Value<bool> isSkill = const Value.absent(),
+                Value<bool> isWod = const Value.absent(),
                 Value<bool> isAccessory = const Value.absent(),
                 Value<bool> isCooldown = const Value.absent(),
               }) => ExercisesCompanion(
@@ -5179,10 +5972,11 @@ class $$ExercisesTableTableManager
                 instructions: instructions,
                 videoUrl: videoUrl,
                 imageUrl: imageUrl,
-                isActive: isActive,
                 isWarmup: isWarmup,
+                isMobility: isMobility,
                 isStrength: isStrength,
-                isMetcon: isMetcon,
+                isSkill: isSkill,
+                isWod: isWod,
                 isAccessory: isAccessory,
                 isCooldown: isCooldown,
               ),
@@ -5199,10 +5993,11 @@ class $$ExercisesTableTableManager
                 required String instructions,
                 Value<String?> videoUrl = const Value.absent(),
                 Value<String?> imageUrl = const Value.absent(),
-                Value<bool> isActive = const Value.absent(),
                 Value<bool> isWarmup = const Value.absent(),
+                Value<bool> isMobility = const Value.absent(),
                 Value<bool> isStrength = const Value.absent(),
-                Value<bool> isMetcon = const Value.absent(),
+                Value<bool> isSkill = const Value.absent(),
+                Value<bool> isWod = const Value.absent(),
                 Value<bool> isAccessory = const Value.absent(),
                 Value<bool> isCooldown = const Value.absent(),
               }) => ExercisesCompanion.insert(
@@ -5217,17 +6012,108 @@ class $$ExercisesTableTableManager
                 instructions: instructions,
                 videoUrl: videoUrl,
                 imageUrl: imageUrl,
-                isActive: isActive,
                 isWarmup: isWarmup,
+                isMobility: isMobility,
                 isStrength: isStrength,
-                isMetcon: isMetcon,
+                isSkill: isSkill,
+                isWod: isWod,
                 isAccessory: isAccessory,
                 isCooldown: isCooldown,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ExercisesTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback:
+              ({
+                categoryId = false,
+                equipmentId = false,
+                difficultyId = false,
+                movementPatternId = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (categoryId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.categoryId,
+                                    referencedTable: $$ExercisesTableReferences
+                                        ._categoryIdTable(db),
+                                    referencedColumn: $$ExercisesTableReferences
+                                        ._categoryIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (equipmentId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.equipmentId,
+                                    referencedTable: $$ExercisesTableReferences
+                                        ._equipmentIdTable(db),
+                                    referencedColumn: $$ExercisesTableReferences
+                                        ._equipmentIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (difficultyId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.difficultyId,
+                                    referencedTable: $$ExercisesTableReferences
+                                        ._difficultyIdTable(db),
+                                    referencedColumn: $$ExercisesTableReferences
+                                        ._difficultyIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (movementPatternId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.movementPatternId,
+                                    referencedTable: $$ExercisesTableReferences
+                                        ._movementPatternIdTable(db),
+                                    referencedColumn: $$ExercisesTableReferences
+                                        ._movementPatternIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
+                  },
+                );
+              },
         ),
       );
 }
@@ -5242,9 +6128,14 @@ typedef $$ExercisesTableProcessedTableManager =
       $$ExercisesTableAnnotationComposer,
       $$ExercisesTableCreateCompanionBuilder,
       $$ExercisesTableUpdateCompanionBuilder,
-      (Exercise, BaseReferences<_$AppDatabase, $ExercisesTable, Exercise>),
+      (Exercise, $$ExercisesTableReferences),
       Exercise,
-      PrefetchHooks Function()
+      PrefetchHooks Function({
+        bool categoryId,
+        bool equipmentId,
+        bool difficultyId,
+        bool movementPatternId,
+      })
     >;
 typedef $$WorkoutsTableCreateCompanionBuilder =
     WorkoutsCompanion Function({

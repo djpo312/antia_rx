@@ -1,5 +1,6 @@
 import '../../database/app_database.dart';
 import 'csv_importer.dart';
+import 'exercise_importer.dart';
 
 class DatabaseSeed {
   final AppDatabase database;
@@ -8,30 +9,42 @@ class DatabaseSeed {
   DatabaseSeed(this.database);
 
   Future<void> initialize() async {
-    final exercises = await database.getAllExercises();
-
-    if (exercises.isNotEmpty) {
-      print("✅ Base de datos ya inicializada");
-      return;
-    }
-
     print("🚀 Iniciando importación...");
 
-    await _importCategories();
-    await _importEquipment();
-    await _importDifficultyLevels();
-    await _importMovementPatterns();
+    if ((await database.select(database.categories).get()).isEmpty) {
+      await _importCategories();
+    }
 
-    print("✅ Catálogos importados");
+    if ((await database.select(database.equipment).get()).isEmpty) {
+      await _importEquipment();
+    }
+
+    if ((await database.select(database.difficultyLevels).get()).isEmpty) {
+      await _importDifficultyLevels();
+    }
+
+    if ((await database.select(database.movementPatterns).get()).isEmpty) {
+      await _importMovementPatterns();
+    }
+
+    if ((await database.getAllExercises()).isEmpty) {
+      await ExerciseImporter(database).importExercises();
+    }
+
+    print("🎉 Base de datos inicializada");
   }
 
   Future<void> _importCategories() async {
+    print("Leyendo categories.csv...");
+
     final rows = await importer.load("assets/catalog/categories.csv");
+
+    print(rows);
 
     for (int i = 1; i < rows.length; i++) {
       await database
           .into(database.categories)
-          .insert(CategoriesCompanion.insert(name: rows[i][0].toString()));
+          .insert(CategoriesCompanion.insert(name: rows[i][1].toString()));
     }
 
     print("Categorías importadas");
@@ -40,10 +53,15 @@ class DatabaseSeed {
   Future<void> _importEquipment() async {
     final rows = await importer.load("assets/catalog/equipment.csv");
 
+    print("===== EQUIPMENT CSV =====");
+    print(rows);
+
     for (int i = 1; i < rows.length; i++) {
+      print("Insertando: ${rows[i][1]}");
+
       await database
           .into(database.equipment)
-          .insert(EquipmentCompanion.insert(name: rows[i][0].toString()));
+          .insert(EquipmentCompanion.insert(name: rows[i][1].toString()));
     }
 
     print("Equipamiento importado");
@@ -56,7 +74,7 @@ class DatabaseSeed {
       await database
           .into(database.difficultyLevels)
           .insert(
-            DifficultyLevelsCompanion.insert(name: rows[i][0].toString()),
+            DifficultyLevelsCompanion.insert(name: rows[i][1].toString()),
           );
     }
 
@@ -70,7 +88,7 @@ class DatabaseSeed {
       await database
           .into(database.movementPatterns)
           .insert(
-            MovementPatternsCompanion.insert(name: rows[i][0].toString()),
+            MovementPatternsCompanion.insert(name: rows[i][1].toString()),
           );
     }
 

@@ -5,9 +5,16 @@ class CsvImporter {
   Future<List<List<dynamic>>> load(String assetPath) async {
     final raw = await rootBundle.loadString(assetPath);
 
-    return const CsvToListConverter(
+    print("===== RAW =====");
+    print(raw);
+
+    final rows = const CsvToListConverter(
       shouldParseNumbers: false,
-      eol: '\n',
     ).convert(raw);
+
+    print("===== PARSED =====");
+    print(rows);
+
+    return rows;
   }
 }

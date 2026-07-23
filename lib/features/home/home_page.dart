@@ -4,6 +4,7 @@ import '../dashboard/dashboard_page.dart';
 import '../history/history_page.dart';
 import '../profile/profile_page.dart';
 import '../timer/timer_page.dart';
+import '../exercises/exercise_list_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +18,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> pages = const [
     DashboardPage(),
+    ExerciseListPage(),
     TimerPage(),
     HistoryPage(),
     ProfilePage(),
@@ -41,6 +43,12 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.home_outlined),
             selectedIcon: Icon(Icons.home),
             label: "Inicio",
+          ),
+
+          NavigationDestination(
+            icon: Icon(Icons.fitness_center_outlined),
+            selectedIcon: Icon(Icons.fitness_center),
+            label: "Ejercicios",
           ),
 
           NavigationDestination(

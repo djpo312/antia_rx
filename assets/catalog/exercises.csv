@@ -1,1 +1,11 @@
 code,name,description,category,equipment,difficulty,movement,warmup,mobility,strength,skill,wod,accessory,cooldown
+CF001,Air Squat,Sentadilla con peso corporal,CrossFit,None,Beginner,Squat,1,0,0,1,1,0,0
+CF002,Back Squat,Sentadilla trasera con barra,CrossFit,Barbell,Intermediate,Squat,0,0,1,0,1,1,0
+CF003,Thruster,Sentadilla frontal más press,CrossFit,Barbell,Intermediate,Push,0,0,1,1,1,0,0
+CF004,Burpee,Movimiento de cuerpo completo,CrossFit,None,Beginner,Push,1,0,0,0,1,0,0
+CF005,Double Under,Salto de cuerda doble,CrossFit,Rope,Intermediate,Jump,1,0,0,1,1,0,0
+CF006,Deadlift,Peso muerto convencional,CrossFit,Barbell,Intermediate,Hinge,0,0,1,0,1,1,0
+CF007,Plank,Plancha isométrica,Mobility,None,Beginner,Core,1,1,0,0,0,1,1
+CF008,Row 500m,Remo de 500 metros,CrossFit,Concept2 Rower,Beginner,Pull,1,0,0,0,1,0,0
+CF009,Box Jump,Salto al cajón,CrossFit,Box,Intermediate,Jump,1,0,0,1,1,0,0
+CF010,Walking Lunge,Zancadas caminando,CrossFit,None,Beginner,Lunge,1,1,0,0,1,1,0
