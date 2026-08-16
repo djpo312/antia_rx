@@ -38,7 +38,16 @@ class WorkoutBuilderPage extends ConsumerWidget {
 
               const SizedBox(height: 8),
 
-              Chip(label: Text(workout.type)),
+              Row(
+                children: [
+                  Chip(label: Text(workout.type)),
+                  const SizedBox(width: 8),
+                  Chip(
+                    avatar: const Icon(Icons.timer_outlined, size: 18),
+                    label: Text("${workout.totalMinutes} min"),
+                  ),
+                ],
+              ),
 
               const SizedBox(height: 20),
 
@@ -51,12 +60,27 @@ class WorkoutBuilderPage extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          section.name,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              section.name,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            if (section.durationMinutes != null)
+                              Text(
+                                "${section.durationMinutes} min",
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                ),
+                              ),
+                          ],
                         ),
 
                         if (section.subtitle != null)

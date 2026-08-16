@@ -8,6 +8,11 @@ class WorkoutModel {
     required this.type,
     required this.sections,
   });
+
+  /// Suma de los minutos asignados a cada sección (Warm Up + Strength +
+  /// Skill + WOD + Cool Down). Debería rondar siempre la hora.
+  int get totalMinutes =>
+      sections.fold(0, (sum, section) => sum + (section.durationMinutes ?? 0));
 }
 
 class WorkoutSectionModel {
@@ -29,11 +34,15 @@ class WorkoutSectionModel {
   /// 3 rondas
   final String? subtitle;
 
+  /// Minutos asignados a esta ventana dentro del entrenamiento total.
+  final int? durationMinutes;
+
   final List<WorkoutExerciseModel> exercises;
 
   const WorkoutSectionModel({
     required this.name,
     this.subtitle,
+    this.durationMinutes,
     required this.exercises,
   });
 }

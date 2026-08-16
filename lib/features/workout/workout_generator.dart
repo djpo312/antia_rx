@@ -104,36 +104,49 @@ class WorkoutGenerator {
     return selected;
   }
 
-  Future<WorkoutSectionModel> generateWod() async {
+  /// Duración total que debe sumar el entrenamiento completo.
+  static const int totalMinutes = 60;
+
+  Future<WorkoutSectionModel> generateWod(int minutes) async {
     final format = wodFormatGenerator.randomFormat();
 
     switch (format) {
       case WodFormat.amrap:
-        return await amrapGenerator.generate();
+        return await amrapGenerator.generate(minutes);
 
       case WodFormat.emom:
-        return await emomGenerator.generate();
+        return await emomGenerator.generate(minutes);
 
       case WodFormat.forTime:
-        return await forTimeGenerator.generate();
+        return await forTimeGenerator.generate(minutes);
 
       case WodFormat.chipper:
-        return await chipperGenerator.generate();
+        return await chipperGenerator.generate(minutes);
 
       case WodFormat.rounds:
-        return await roundsGenerator.generate();
+        return await roundsGenerator.generate(minutes);
     }
   }
 
   Future<WorkoutModel> generate() async {
     usedExercises.clear();
 
+    // Reparte los 60 minutos entre las ventanas del entrenamiento. El WOD
+    // se queda con lo que sobra, para que la suma siempre dé el total.
+    final warmupMinutes = 8 + random.nextInt(5); // 8-12
+    final strengthMinutes = 12 + random.nextInt(7); // 12-18
+    final skillMinutes = 8 + random.nextInt(5); // 8-12
+    final cooldownMinutes = 5 + random.nextInt(4); // 5-8
+    final wodMinutes =
+        totalMinutes -
+        (warmupMinutes + strengthMinutes + skillMinutes + cooldownMinutes);
+
     final warmups = await repository.getWarmupExercises();
     final strengths = await repository.getStrengthExercises();
     final skills = await repository.getSkillExercises();
     final cooldowns = await repository.getCooldownExercises();
 
-    final wodSection = await generateWod();
+    final wodSection = await generateWod(wodMinutes);
 
     return WorkoutModel(
       title: "CrossFit del Día",
@@ -141,16 +154,19 @@ class WorkoutGenerator {
       sections: [
         WorkoutSectionModel(
           name: "Warm Up",
+          durationMinutes: warmupMinutes,
           exercises: pickExercises(warmups, 3, "Warm Up"),
         ),
 
         WorkoutSectionModel(
           name: "Strength",
+          durationMinutes: strengthMinutes,
           exercises: pickExercises(strengths, 2, "Strength"),
         ),
 
         WorkoutSectionModel(
           name: "Skill",
+          durationMinutes: skillMinutes,
           exercises: pickExercises(skills, 2, "Skill"),
         ),
 
@@ -158,6 +174,7 @@ class WorkoutGenerator {
 
         WorkoutSectionModel(
           name: "Cool Down",
+          durationMinutes: cooldownMinutes,
           exercises: pickExercises(cooldowns, 2, "Cool Down"),
         ),
       ],

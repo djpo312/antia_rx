@@ -9,7 +9,7 @@ class RoundsGenerator {
 
   RoundsGenerator(this.repository);
 
-  Future<WorkoutSectionModel> generate() async {
+  Future<WorkoutSectionModel> generate(int minutes) async {
     final exercises = await repository.getWodExercises();
     exercises.shuffle(random);
 
@@ -27,7 +27,8 @@ class RoundsGenerator {
 
     return WorkoutSectionModel(
       name: "WOD",
-      subtitle: "$rounds Rondas",
+      subtitle: "$rounds Rondas (cap $minutes')",
+      durationMinutes: minutes,
       exercises: workoutExercises,
     );
   }

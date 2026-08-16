@@ -9,15 +9,13 @@ class EmomGenerator {
 
   EmomGenerator(this.repository);
 
-  Future<WorkoutSectionModel> generate() async {
+  Future<WorkoutSectionModel> generate(int minutes) async {
     final exercises = await repository.getWodExercises();
     exercises.shuffle(random);
 
     // EMOM suele rotar entre 2 o 3 movimientos, uno por minuto.
     final exerciseCount = min(2 + random.nextInt(2), exercises.length);
     final selected = exercises.take(exerciseCount).toList();
-
-    final minutes = [10, 12, 14, 16, 20][random.nextInt(5)];
 
     final workoutExercises = selected.asMap().entries.map((entry) {
       final index = entry.key;
@@ -35,6 +33,7 @@ class EmomGenerator {
     return WorkoutSectionModel(
       name: "WOD",
       subtitle: "EMOM $minutes'",
+      durationMinutes: minutes,
       exercises: workoutExercises,
     );
   }

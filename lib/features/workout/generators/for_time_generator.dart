@@ -9,7 +9,7 @@ class ForTimeGenerator {
 
   ForTimeGenerator(this.repository);
 
-  Future<WorkoutSectionModel> generate() async {
+  Future<WorkoutSectionModel> generate(int minutes) async {
     final exercises = await repository.getWodExercises();
     exercises.shuffle(random);
 
@@ -25,15 +25,14 @@ class ForTimeGenerator {
     ];
     final scheme = schemes[random.nextInt(schemes.length)];
 
-    final cap = [10, 12, 15, 18, 20][random.nextInt(5)];
-
     final workoutExercises = selected.map((exercise) {
       return WorkoutExerciseModel(name: exercise.name, reps: scheme.join("-"));
     }).toList();
 
     return WorkoutSectionModel(
       name: "WOD",
-      subtitle: "FOR TIME (cap $cap')",
+      subtitle: "FOR TIME (cap $minutes')",
+      durationMinutes: minutes,
       exercises: workoutExercises,
     );
   }

@@ -9,14 +9,12 @@ class AmrapGenerator {
 
   AmrapGenerator(this.repository);
 
-  Future<WorkoutSectionModel> generate() async {
+  Future<WorkoutSectionModel> generate(int minutes) async {
     final exercises = await repository.getWodExercises();
 
-    exercises.shuffle();
+    exercises.shuffle(random);
 
     final selected = exercises.take(4).toList();
-
-    final minutes = [8, 10, 12, 15, 18, 20][random.nextInt(6)];
 
     final workoutExercises = selected.map((e) {
       return WorkoutExerciseModel(
@@ -28,6 +26,7 @@ class AmrapGenerator {
     return WorkoutSectionModel(
       name: "WOD",
       subtitle: "AMRAP $minutes'",
+      durationMinutes: minutes,
       exercises: workoutExercises,
     );
   }
