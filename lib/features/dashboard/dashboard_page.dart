@@ -4,6 +4,7 @@ import '../crossfit/crossfit_page.dart';
 import '../gym/gym_page.dart';
 import '../hyrox/hyrox_page.dart';
 import '../running/running_page.dart';
+import '../workout/workout_builder_page.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -63,6 +64,14 @@ class DashboardPage extends StatelessWidget {
               "Gimnasio",
               Colors.blue,
               const GymPage(),
+            ),
+
+            _menuCard(
+              context,
+              Icons.auto_awesome,
+              "Generador de WOD",
+              Colors.purple,
+              const WorkoutBuilderPage(),
             ),
 
             const SizedBox(height: 20),

@@ -9,3 +9,19 @@ CF007,Plank,Plancha isométrica,Mobility,None,Beginner,Core,1,1,0,0,0,1,1
 CF008,Row 500m,Remo de 500 metros,CrossFit,Concept2 Rower,Beginner,Pull,1,0,0,0,1,0,0
 CF009,Box Jump,Salto al cajón,CrossFit,Box,Intermediate,Jump,1,0,0,1,1,0,0
 CF010,Walking Lunge,Zancadas caminando,CrossFit,None,Beginner,Lunge,1,1,0,0,1,1,0
+CF011,Push-up,Flexión de pecho,CrossFit,None,Beginner,Push,1,0,0,0,1,1,0
+CF012,Pull-up,Dominada estricta,CrossFit,Pull-up Bar,Intermediate,Pull,0,0,1,1,1,0,0
+CF013,Kettlebell Swing,Balanceo ruso de pesa rusa,CrossFit,Kettlebell,Beginner,Hinge,0,0,1,0,1,1,0
+CF014,Wall Ball,Lanzamiento a la pared,CrossFit,Wall Ball,Beginner,Squat,0,0,0,1,1,0,0
+CF015,Ski Erg 250m,Esquí de 250 metros,CrossFit,SkiErg,Beginner,Pull,1,0,0,0,1,0,0
+CF016,Overhead Press,Press militar de pie,CrossFit,Barbell,Intermediate,Push,0,0,1,0,1,1,0
+CF017,Toes to Bar,Pies a la barra,CrossFit,Pull-up Bar,Advanced,Core,0,0,0,1,1,0,0
+CF018,Front Squat,Sentadilla frontal,CrossFit,Barbell,Intermediate,Squat,0,0,1,0,1,1,0
+CF019,Assault Bike,Bicicleta de asalto,CrossFit,Assault Bike,Beginner,Run,1,0,0,0,1,0,0
+CF020,Sandbag Carry,Acarreo de saco,Hyrox,Sandbag,Intermediate,Carry,0,0,1,0,1,0,0
+MB001,Cat Cow,Movilidad de columna gato-vaca,Mobility,None,Beginner,Core,1,1,0,0,0,0,1
+MB002,World Greatest Stretch,Estiramiento dinámico completo,Mobility,None,Beginner,Lunge,1,1,0,0,0,0,1
+MB003,Child Pose,Postura del niño,Mobility,None,Beginner,Core,0,1,0,0,0,0,1
+MB004,Pigeon Stretch,Estiramiento de paloma,Mobility,None,Beginner,Hinge,0,1,0,0,0,0,1
+MB005,Hamstring Stretch,Estiramiento de isquiotibiales,Mobility,None,Beginner,Hinge,0,1,0,0,0,0,1
+MB006,Shoulder Pass Through,Movilidad de hombro con PVC,Mobility,None,Beginner,Push,1,1,0,0,0,0,1

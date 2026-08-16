@@ -9,7 +9,9 @@ class ExerciseImporter {
   ExerciseImporter(this.database);
 
   bool _toBool(dynamic value) {
-    return value.toString().toLowerCase() == "true";
+    final text = value.toString().trim().toLowerCase();
+
+    return text == "true" || text == "1" || text == "si" || text == "sí";
   }
 
   Future<void> importExercises() async {
@@ -54,6 +56,17 @@ class ExerciseImporter {
           movement == null) {
         continue;
       }
+
+      print(
+        "${row[1]} -> "
+        "Warmup:${_toBool(row[7])} "
+        "Mobility:${_toBool(row[8])} "
+        "Strength:${_toBool(row[9])} "
+        "Skill:${_toBool(row[10])} "
+        "WOD:${_toBool(row[11])} "
+        "Accessory:${_toBool(row[12])} "
+        "Cooldown:${_toBool(row[13])}",
+      );
 
       await database.insertExercise(
         ExercisesCompanion.insert(
