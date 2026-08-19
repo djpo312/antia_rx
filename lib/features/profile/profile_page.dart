@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/app_version.dart';
 import '../../providers/app_storage_provider.dart';
 
 class ProfilePage extends ConsumerWidget {
@@ -87,6 +88,15 @@ class ProfilePage extends ConsumerWidget {
                 "$weeklyWods",
                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
+            ),
+          ),
+
+          const SizedBox(height: 32),
+
+          Center(
+            child: Text(
+              "ANTIA RX · v$appVersion",
+              style: const TextStyle(color: Colors.white38, fontSize: 12),
             ),
           ),
         ],

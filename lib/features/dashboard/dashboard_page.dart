@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme.dart';
+import '../../core/app_version.dart';
 import '../../core/utils/spanish_date.dart';
 import '../../providers/app_storage_provider.dart';
 import '../crossfit/crossfit_page.dart';
@@ -24,9 +25,23 @@ class DashboardPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "ANTIA RX",
-          style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const Text(
+              "ANTIA RX",
+              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1),
+            ),
+            const SizedBox(width: 6),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 2),
+              child: Text(
+                "v$appVersion",
+                style: const TextStyle(fontSize: 11, color: Colors.white38),
+              ),
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
