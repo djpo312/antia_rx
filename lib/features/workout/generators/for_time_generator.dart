@@ -2,14 +2,18 @@ import 'dart:math';
 
 import '../../../repositories/exercise_repository.dart';
 import '../workout_model.dart';
+import 'weight_table.dart';
 
 class ForTimeGenerator {
+  ForTimeGenerator(this.repository, {Random? random}) : random = random ?? Random();
+
   final ExerciseRepository repository;
-  final Random random = Random();
+  final Random random;
 
-  ForTimeGenerator(this.repository);
-
-  Future<WorkoutSectionModel> generate(int minutes) async {
+  Future<WorkoutSectionModel> generate(
+    int minutes,
+    Map<int, String> equipmentNames,
+  ) async {
     final exercises = await repository.getWodExercises();
     exercises.shuffle(random);
 
@@ -26,7 +30,14 @@ class ForTimeGenerator {
     final scheme = schemes[random.nextInt(schemes.length)];
 
     final workoutExercises = selected.map((exercise) {
-      return WorkoutExerciseModel(name: exercise.name, reps: scheme.join("-"));
+      final weights = WeightSuggestion.forExercise(exercise.name);
+
+      return WorkoutExerciseModel(
+        name: exercise.name,
+        equipment: equipmentNames[exercise.equipmentId],
+        reps: scheme.join("-"),
+        weight: weights?.label,
+      );
     }).toList();
 
     return WorkoutSectionModel(

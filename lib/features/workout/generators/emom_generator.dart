@@ -2,14 +2,18 @@ import 'dart:math';
 
 import '../../../repositories/exercise_repository.dart';
 import '../workout_model.dart';
+import 'weight_table.dart';
 
 class EmomGenerator {
+  EmomGenerator(this.repository, {Random? random}) : random = random ?? Random();
+
   final ExerciseRepository repository;
-  final Random random = Random();
+  final Random random;
 
-  EmomGenerator(this.repository);
-
-  Future<WorkoutSectionModel> generate(int minutes) async {
+  Future<WorkoutSectionModel> generate(
+    int minutes,
+    Map<int, String> equipmentNames,
+  ) async {
     final exercises = await repository.getWodExercises();
     exercises.shuffle(random);
 
@@ -20,13 +24,18 @@ class EmomGenerator {
     final workoutExercises = selected.asMap().entries.map((entry) {
       final index = entry.key;
       final exercise = entry.value;
+      final weights = WeightSuggestion.forExercise(exercise.name);
+
+      final rotationNote = selected.length == 1
+          ? "Cada minuto"
+          : "Minuto ${index + 1} de cada ${selected.length}";
 
       return WorkoutExerciseModel(
         name: exercise.name,
+        equipment: equipmentNames[exercise.equipmentId],
         reps: (8 + random.nextInt(10)).toString(),
-        notes: selected.length == 1
-            ? "Cada minuto"
-            : "Minuto ${index + 1} de cada ${selected.length}",
+        weight: weights?.label,
+        notes: rotationNote,
       );
     }).toList();
 

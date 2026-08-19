@@ -1,44 +1,62 @@
 import 'package:flutter/material.dart';
-import '../../data/sample_workouts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../app/theme.dart';
+import '../../core/utils/spanish_date.dart';
+import '../../providers/app_storage_provider.dart';
 import '../crossfit/crossfit_page.dart';
 import '../gym/gym_page.dart';
 import '../hyrox/hyrox_page.dart';
 import '../running/running_page.dart';
+import '../workout/equipment_icons.dart';
+import '../workout/wod_completion_toggle.dart';
 import '../workout/workout_builder_page.dart';
+import '../workout/workout_model.dart';
+import '../workout/workout_provider.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final crossfitWorkout = sampleWorkouts.first;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dailyWorkout = ref.watch(dailyWorkoutProvider);
+    final userName = ref.watch(userNameProvider) ?? "";
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Vida Asistente")),
+      appBar: AppBar(
+        title: const Text(
+          "ANTIA RX",
+          style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1),
+        ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Hola Danny 👋",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            Text(
+              "Hola, $userName",
+              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
 
-            const Text(
-              "¿Qué quieres entrenar hoy?",
-              style: TextStyle(fontSize: 18, color: Colors.grey),
+            Text(
+              "TU INTELIGENCIA PARA ENTRENAR MÁS FUERTE",
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.2,
+                color: AppTheme.accent,
+              ),
             ),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
 
             _menuCard(
               context,
               Icons.fitness_center,
               "CrossFit",
-              Colors.orange,
               const CrossfitPage(),
             ),
 
@@ -46,7 +64,6 @@ class DashboardPage extends StatelessWidget {
               context,
               Icons.directions_run,
               "Running",
-              Colors.green,
               const RunningPage(),
             ),
 
@@ -54,7 +71,6 @@ class DashboardPage extends StatelessWidget {
               context,
               Icons.local_fire_department,
               "Hyrox",
-              Colors.red,
               const HyroxPage(),
             ),
 
@@ -62,7 +78,6 @@ class DashboardPage extends StatelessWidget {
               context,
               Icons.sports_gymnastics,
               "Gimnasio",
-              Colors.blue,
               const GymPage(),
             ),
 
@@ -70,64 +85,34 @@ class DashboardPage extends StatelessWidget {
               context,
               Icons.auto_awesome,
               "Generador de WOD",
-              Colors.purple,
               const WorkoutBuilderPage(),
             ),
 
             const SizedBox(height: 20),
 
             Card(
-              elevation: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(18),
+                child: dailyWorkout.when(
+                  loading: () => const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
+                  error: (error, _) => Text(error.toString()),
+                  data: (workout) => _wodOfTheDay(context, workout),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Card(
               child: Padding(
                 padding: const EdgeInsets.all(18),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "🔥 WOD del día",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    Text(
-                      crossfitWorkout.title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-
-                    const Divider(),
-
-                    ...crossfitWorkout.exercises.map(
-                      (exercise) => ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: const Icon(Icons.check_circle_outline),
-                        title: Text(exercise.name),
-                        subtitle: Text(
-                          "${exercise.sets} series de ${exercise.reps} repeticiones",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 25),
-
-            Card(
-              elevation: 3,
-              child: Padding(
-                padding: const EdgeInsets.all(18),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
                       "Resumen semanal",
                       style: TextStyle(
                         fontSize: 20,
@@ -135,12 +120,14 @@ class DashboardPage extends StatelessWidget {
                       ),
                     ),
 
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
 
-                    Text("🏋 Entrenamientos: 0"),
-                    Text("🔥 Calorías: 0"),
-                    Text("⏱ Tiempo: 0 min"),
-                    Text("🏆 PR nuevos: 0"),
+                    Text(
+                      "🏋 Entrenamientos: ${ref.watch(weeklyCompletedWodsProvider)}",
+                    ),
+                    const Text("🔥 Calorías: 0"),
+                    const Text("⏱ Tiempo: 0 min"),
+                    const Text("🏆 PR nuevos: 0"),
                   ],
                 ),
               ),
@@ -151,23 +138,108 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
+  Widget _wodOfTheDay(BuildContext context, WorkoutModel workout) {
+    final wodSection = workout.sections.firstWhere(
+      (section) => section.name == "WOD",
+      orElse: () => workout.sections.last,
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Text(
+              "🔥 WOD del día",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const Spacer(),
+            Text(
+              "${workout.totalMinutes} min",
+              style: const TextStyle(
+                color: Colors.white60,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 4),
+
+        Text(
+          formatSpanishDate(DateTime.now()),
+          style: const TextStyle(color: Colors.white60, fontSize: 14),
+        ),
+
+        const SizedBox(height: 10),
+
+        Text(
+          wodSection.subtitle ?? wodSection.name,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: AppTheme.accent,
+          ),
+        ),
+
+        const Divider(),
+
+        ...wodSection.exercises.map(
+          (exercise) => ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: CircleAvatar(
+              radius: 15,
+              backgroundColor: AppTheme.surface,
+              child: Text(
+                equipmentEmoji(exercise.equipment),
+                style: const TextStyle(fontSize: 15),
+              ),
+            ),
+            title: Text(exercise.name),
+            subtitle: Text(
+              [
+                if (exercise.reps != null) "${exercise.reps} reps",
+                if (exercise.weight != null) exercise.weight!,
+                if (exercise.equipment != null && exercise.equipment != "None")
+                  exercise.equipment!,
+              ].join(" • "),
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
+        const WodCompletionToggle(),
+
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const CrossfitPage()),
+            ),
+            child: const Text("Ver entrenamiento completo"),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _menuCard(
     BuildContext context,
     IconData icon,
     String title,
-    Color color,
     Widget page,
   ) {
     return Card(
       margin: const EdgeInsets.only(bottom: 15),
-      elevation: 4,
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: color,
+          backgroundColor: AppTheme.accent,
           child: Icon(icon, color: Colors.white),
         ),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        trailing: const Icon(Icons.arrow_forward_ios),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.white38),
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (_) => page));
         },

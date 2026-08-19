@@ -50,6 +50,10 @@ class WorkoutSectionModel {
 class WorkoutExerciseModel {
   final String name;
 
+  /// Barbell, Dumbbell, Kettlebell, None, etc. — para mostrar un ícono
+  /// del equipo que usa el ejercicio.
+  final String? equipment;
+
   /// Para fuerza
   final String? sets;
   final String? reps;
@@ -66,6 +70,7 @@ class WorkoutExerciseModel {
 
   const WorkoutExerciseModel({
     required this.name,
+    this.equipment,
     this.sets,
     this.reps,
     this.weight,

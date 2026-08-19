@@ -44,4 +44,11 @@ class ExerciseRepository {
       database.exercises,
     )..where((tbl) => tbl.isCooldown.equals(true))).get();
   }
+
+  /// Mapa id -> nombre del equipo (Barbell, Dumbbell, Kettlebell, ...),
+  /// para mostrar un ícono por tipo de equipo en cada ejercicio.
+  Future<Map<int, String>> getEquipmentNames() async {
+    final rows = await database.select(database.equipment).get();
+    return {for (final row in rows) row.id: row.name};
+  }
 }

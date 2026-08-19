@@ -4,11 +4,14 @@ import '../../../database/app_database.dart';
 import '../workout_model.dart';
 
 class SkillGenerator {
-  final Random random = Random();
+  SkillGenerator({Random? random}) : random = random ?? Random();
 
-  WorkoutExerciseModel generate(Exercise exercise) {
+  final Random random;
+
+  WorkoutExerciseModel generate(Exercise exercise, {String? equipment}) {
     return WorkoutExerciseModel(
       name: exercise.name,
+      equipment: equipment,
       duration: "${5 + random.nextInt(6)} min",
     );
   }

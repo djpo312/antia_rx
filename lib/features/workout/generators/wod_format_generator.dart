@@ -3,7 +3,9 @@ import 'dart:math';
 import 'wod_format.dart';
 
 class WodFormatGenerator {
-  final Random random = Random();
+  WodFormatGenerator({Random? random}) : random = random ?? Random();
+
+  final Random random;
 
   WodFormat randomFormat() {
     return WodFormat.values[random.nextInt(WodFormat.values.length)];

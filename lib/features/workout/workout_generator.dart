@@ -20,24 +20,27 @@ import 'generators/wod_format.dart';
 import 'generators/wod_format_generator.dart';
 
 class WorkoutGenerator {
-  final ExerciseRepository repository;
+  /// [seed] permite generar un entrenamiento reproducible (ej. el mismo
+  /// WOD durante todo el día, en base a la fecha). Si se omite, cada
+  /// llamada a [generate] produce un entrenamiento distinto.
+  WorkoutGenerator(this.repository, {int? seed})
+    : random = seed != null ? Random(seed) : Random() {
+    warmupGenerator = WarmupGenerator(random: random);
+    strengthGenerator = StrengthGenerator(random: random);
+    skillGenerator = SkillGenerator(random: random);
+    cooldownGenerator = CooldownGenerator(random: random);
 
-  WorkoutGenerator(this.repository) {
-    warmupGenerator = WarmupGenerator();
-    strengthGenerator = StrengthGenerator();
-    skillGenerator = SkillGenerator();
-    cooldownGenerator = CooldownGenerator();
+    amrapGenerator = AmrapGenerator(repository, random: random);
+    emomGenerator = EmomGenerator(repository, random: random);
+    forTimeGenerator = ForTimeGenerator(repository, random: random);
+    chipperGenerator = ChipperGenerator(repository, random: random);
+    roundsGenerator = RoundsGenerator(repository, random: random);
 
-    amrapGenerator = AmrapGenerator(repository);
-    emomGenerator = EmomGenerator(repository);
-    forTimeGenerator = ForTimeGenerator(repository);
-    chipperGenerator = ChipperGenerator(repository);
-    roundsGenerator = RoundsGenerator(repository);
-
-    wodFormatGenerator = WodFormatGenerator();
+    wodFormatGenerator = WodFormatGenerator(random: random);
   }
 
-  final Random random = Random();
+  final ExerciseRepository repository;
+  final Random random;
 
   late final WarmupGenerator warmupGenerator;
   late final StrengthGenerator strengthGenerator;
@@ -55,28 +58,35 @@ class WorkoutGenerator {
   /// Evita repetir ejercicios
   final Set<int> usedExercises = {};
 
-  WorkoutExerciseModel buildExercise(Exercise exercise, String section) {
+  WorkoutExerciseModel buildExercise(
+    Exercise exercise,
+    String section,
+    Map<int, String> equipmentNames,
+  ) {
+    final equipment = equipmentNames[exercise.equipmentId];
+
     switch (section) {
       case "Warm Up":
-        return warmupGenerator.generate(exercise);
+        return warmupGenerator.generate(exercise, equipment: equipment);
 
       case "Strength":
-        return strengthGenerator.generate(exercise);
+        return strengthGenerator.generate(exercise, equipment: equipment);
 
       case "Skill":
-        return skillGenerator.generate(exercise);
+        return skillGenerator.generate(exercise, equipment: equipment);
 
       case "Cool Down":
-        return cooldownGenerator.generate(exercise);
+        return cooldownGenerator.generate(exercise, equipment: equipment);
 
       case "WOD":
         return WorkoutExerciseModel(
           name: exercise.name,
+          equipment: equipment,
           reps: "${8 + random.nextInt(13)}",
         );
 
       default:
-        return WorkoutExerciseModel(name: exercise.name);
+        return WorkoutExerciseModel(name: exercise.name, equipment: equipment);
     }
   }
 
@@ -84,6 +94,7 @@ class WorkoutGenerator {
     List<Exercise> source,
     int amount,
     String section,
+    Map<int, String> equipmentNames,
   ) {
     source.shuffle(random);
 
@@ -94,7 +105,7 @@ class WorkoutGenerator {
 
       usedExercises.add(exercise.id);
 
-      selected.add(buildExercise(exercise, section));
+      selected.add(buildExercise(exercise, section, equipmentNames));
 
       if (selected.length == amount) {
         break;
@@ -107,24 +118,27 @@ class WorkoutGenerator {
   /// Duración total que debe sumar el entrenamiento completo.
   static const int totalMinutes = 60;
 
-  Future<WorkoutSectionModel> generateWod(int minutes) async {
+  Future<WorkoutSectionModel> generateWod(
+    int minutes,
+    Map<int, String> equipmentNames,
+  ) async {
     final format = wodFormatGenerator.randomFormat();
 
     switch (format) {
       case WodFormat.amrap:
-        return await amrapGenerator.generate(minutes);
+        return await amrapGenerator.generate(minutes, equipmentNames);
 
       case WodFormat.emom:
-        return await emomGenerator.generate(minutes);
+        return await emomGenerator.generate(minutes, equipmentNames);
 
       case WodFormat.forTime:
-        return await forTimeGenerator.generate(minutes);
+        return await forTimeGenerator.generate(minutes, equipmentNames);
 
       case WodFormat.chipper:
-        return await chipperGenerator.generate(minutes);
+        return await chipperGenerator.generate(minutes, equipmentNames);
 
       case WodFormat.rounds:
-        return await roundsGenerator.generate(minutes);
+        return await roundsGenerator.generate(minutes, equipmentNames);
     }
   }
 
@@ -141,12 +155,14 @@ class WorkoutGenerator {
         totalMinutes -
         (warmupMinutes + strengthMinutes + skillMinutes + cooldownMinutes);
 
+    final equipmentNames = await repository.getEquipmentNames();
+
     final warmups = await repository.getWarmupExercises();
     final strengths = await repository.getStrengthExercises();
     final skills = await repository.getSkillExercises();
     final cooldowns = await repository.getCooldownExercises();
 
-    final wodSection = await generateWod(wodMinutes);
+    final wodSection = await generateWod(wodMinutes, equipmentNames);
 
     return WorkoutModel(
       title: "CrossFit del Día",
@@ -155,19 +171,19 @@ class WorkoutGenerator {
         WorkoutSectionModel(
           name: "Warm Up",
           durationMinutes: warmupMinutes,
-          exercises: pickExercises(warmups, 3, "Warm Up"),
+          exercises: pickExercises(warmups, 3, "Warm Up", equipmentNames),
         ),
 
         WorkoutSectionModel(
           name: "Strength",
           durationMinutes: strengthMinutes,
-          exercises: pickExercises(strengths, 2, "Strength"),
+          exercises: pickExercises(strengths, 2, "Strength", equipmentNames),
         ),
 
         WorkoutSectionModel(
           name: "Skill",
           durationMinutes: skillMinutes,
-          exercises: pickExercises(skills, 2, "Skill"),
+          exercises: pickExercises(skills, 2, "Skill", equipmentNames),
         ),
 
         wodSection,
@@ -175,7 +191,7 @@ class WorkoutGenerator {
         WorkoutSectionModel(
           name: "Cool Down",
           durationMinutes: cooldownMinutes,
-          exercises: pickExercises(cooldowns, 2, "Cool Down"),
+          exercises: pickExercises(cooldowns, 2, "Cool Down", equipmentNames),
         ),
       ],
     );
