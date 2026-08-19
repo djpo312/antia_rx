@@ -89,4 +89,15 @@ class AppStorageService {
       "${date.year.toString().padLeft(4, '0')}-"
       "${date.month.toString().padLeft(2, '0')}-"
       "${date.day.toString().padLeft(2, '0')}";
+
+  // --- Versión del catálogo de ejercicios ya sembrada en este teléfono ---
+  // Se compara contra `catalogVersion` (lib/core/app_version.dart) al
+  // arrancar para decidir si hay que reimportar los CSV de ejercicios.
+
+  int get catalogVersion => (_data['catalogVersion'] as num?)?.toInt() ?? 0;
+
+  Future<void> setCatalogVersion(int version) async {
+    _data['catalogVersion'] = version;
+    await _save();
+  }
 }

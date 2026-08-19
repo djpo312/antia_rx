@@ -8,7 +8,12 @@ class DatabaseSeed {
 
   DatabaseSeed(this.database);
 
-  Future<void> initialize() async {
+  /// [forceReseedExercises] se pasa en true cuando `catalogVersion`
+  /// (lib/core/app_version.dart) cambió respecto a lo guardado en el
+  /// teléfono: significa que se agregaron/editaron ejercicios en el CSV
+  /// y hay que reimportarlos aunque la tabla ya tenga datos, sin obligar
+  /// al usuario a desinstalar la app para verlos.
+  Future<void> initialize({bool forceReseedExercises = false}) async {
     print("🚀 Iniciando importación...");
 
     if ((await database.select(database.categories).get()).isEmpty) {
@@ -25,6 +30,11 @@ class DatabaseSeed {
 
     if ((await database.select(database.movementPatterns).get()).isEmpty) {
       await _importMovementPatterns();
+    }
+
+    if (forceReseedExercises) {
+      print("🔄 Catálogo de ejercicios desactualizado, reimportando...");
+      await database.deleteAllExercises();
     }
 
     if ((await database.getAllExercises()).isEmpty) {
