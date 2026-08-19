@@ -25,3 +25,78 @@ MB003,Child Pose,Postura del niño,Mobility,None,Beginner,Core,0,1,0,0,0,0,1
 MB004,Pigeon Stretch,Estiramiento de paloma,Mobility,None,Beginner,Hinge,0,1,0,0,0,0,1
 MB005,Hamstring Stretch,Estiramiento de isquiotibiales,Mobility,None,Beginner,Hinge,0,1,0,0,0,0,1
 MB006,Shoulder Pass Through,Movilidad de hombro con PVC,Mobility,None,Beginner,Push,1,1,0,0,0,0,1
+CF021,Sumo Deadlift High Pull,Tirón de peso muerto sumo a la altura del mentón,CrossFit,Barbell,Intermediate,Hinge,0,0,0,1,1,0,0
+CF022,Power Clean,Cargada de potencia con barra,CrossFit,Barbell,Intermediate,Pull,0,0,1,1,1,0,0
+CF023,Squat Clean,Cargada con recepción en sentadilla,CrossFit,Barbell,Advanced,Pull,0,0,1,1,1,0,0
+CF024,Clean and Jerk,Cargada más envión,CrossFit,Barbell,Advanced,Pull,0,0,1,1,1,0,0
+CF025,Power Snatch,Arrancada de potencia,CrossFit,Barbell,Advanced,Pull,0,0,1,1,1,0,0
+CF026,Squat Snatch,Arrancada con recepción en sentadilla,CrossFit,Barbell,Advanced,Pull,0,0,1,1,0,0,0
+CF027,Push Press,Press de empuje con impulso de piernas,CrossFit,Barbell,Intermediate,Push,0,0,1,0,1,0,0
+CF028,Push Jerk,Envión de empuje,CrossFit,Barbell,Intermediate,Push,0,0,1,1,1,0,0
+CF029,Split Jerk,Envión con tijera,CrossFit,Barbell,Advanced,Push,0,0,1,1,0,0,0
+CF030,Overhead Squat,Sentadilla con barra sobre la cabeza,CrossFit,Barbell,Advanced,Squat,0,0,1,1,0,0,0
+CF031,Sumo Deadlift,Peso muerto sumo,CrossFit,Barbell,Intermediate,Hinge,0,0,1,0,0,0,0
+CF032,Romanian Deadlift,Peso muerto rumano,CrossFit,Barbell,Intermediate,Hinge,0,0,1,0,0,1,0
+CF033,Good Morning,Flexión de cadera con barra en espalda,CrossFit,Barbell,Intermediate,Hinge,0,0,0,0,0,1,0
+CF034,Hip Thrust,Empuje de cadera con barra,CrossFit,Barbell,Beginner,Hinge,0,0,0,0,0,1,0
+CF035,Bench Press,Press de banca con barra,CrossFit,Barbell,Intermediate,Push,0,0,1,0,0,1,0
+CF036,Dumbbell Snatch,Arrancada con mancuerna a una mano,CrossFit,Dumbbell,Intermediate,Pull,0,0,0,1,1,0,0
+CF037,Dumbbell Clean,Cargada con mancuernas,CrossFit,Dumbbell,Intermediate,Pull,0,0,0,1,1,0,0
+CF038,Dumbbell Thruster,Sentadilla frontal más press con mancuernas,CrossFit,Dumbbell,Intermediate,Push,0,0,0,0,1,0,0
+CF039,Devil Press,Burpee más arrancada con mancuernas,CrossFit,Dumbbell,Advanced,Push,0,0,0,1,1,0,0
+CF040,Renegade Row,Remo alterno en plancha con mancuernas,CrossFit,Dumbbell,Intermediate,Pull,0,0,0,0,1,1,0
+CF041,Man Makers,Burpee remo y press con mancuernas,CrossFit,Dumbbell,Advanced,Push,0,0,0,0,1,0,0
+CF042,Turkish Get-up,Incorporación turca con kettlebell,CrossFit,Kettlebell,Advanced,Core,0,0,0,1,0,1,0
+CF043,Goblet Squat,Sentadilla con kettlebell al pecho,CrossFit,Kettlebell,Beginner,Squat,1,0,0,0,0,1,0
+CF044,Kettlebell Clean,Cargada con kettlebell,CrossFit,Kettlebell,Intermediate,Pull,0,0,0,1,1,0,0
+CF045,Chest-to-Bar Pull-up,Dominada a la barra al pecho,CrossFit,Pull-up Bar,Advanced,Pull,0,0,0,1,1,0,0
+CF046,Ring Muscle-up,Muscle-up en anillas,CrossFit,Rings,Advanced,Pull,0,0,0,1,1,0,0
+CF047,Bar Muscle-up,Muscle-up en barra,CrossFit,Pull-up Bar,Advanced,Pull,0,0,0,1,1,0,0
+CF048,Handstand Push-up,Flexión en parada de manos,CrossFit,None,Advanced,Push,0,0,0,1,1,0,0
+CF049,Handstand Walk,Caminata en parada de manos,CrossFit,None,Advanced,Core,0,0,0,1,0,0,0
+CF050,Ring Dip,Fondo en anillas,CrossFit,Rings,Intermediate,Push,0,0,0,1,0,1,0
+CF051,Pistol Squat,Sentadilla a una pierna,CrossFit,None,Advanced,Squat,0,0,0,1,1,0,0
+CF052,Burpee Box Jump Over,Burpee con salto sobre el cajón,CrossFit,Box,Intermediate,Jump,1,0,0,0,1,0,0
+CF053,Knees to Elbows,Rodillas al pecho colgado de la barra,CrossFit,Pull-up Bar,Intermediate,Core,0,0,0,1,1,0,0
+CF054,GHD Sit-up,Abdominal en banco GHD,CrossFit,None,Intermediate,Core,0,0,0,0,1,1,0
+CF055,V-up,Abdominal en V,CrossFit,None,Beginner,Core,1,0,0,0,0,1,0
+CF056,Sit-up,Abdominal tradicional,CrossFit,None,Beginner,Core,1,0,0,0,1,0,0
+CF057,Rope Climb,Trepa de cuerda,CrossFit,Rope,Advanced,Climb,0,0,0,1,1,0,0
+CF058,Single Under,Salto de cuerda simple,CrossFit,Rope,Beginner,Jump,1,0,0,0,0,0,0
+CF059,Box Jump Over,Salto sobre el cajón de lado a lado,CrossFit,Box,Intermediate,Jump,0,0,0,0,1,0,0
+CF060,Broad Jump,Salto horizontal a pies juntos,CrossFit,None,Beginner,Jump,1,0,0,0,1,0,0
+CF061,Farmers Carry,Acarreo de mancuernas a los costados,CrossFit,Dumbbell,Beginner,Carry,1,0,0,0,1,1,0
+CF062,Ring Row,Remo invertido en anillas,CrossFit,Rings,Beginner,Pull,1,0,0,0,0,1,0
+CF063,Jumping Pull-up,Dominada asistida con salto,CrossFit,Pull-up Bar,Beginner,Pull,1,0,0,0,0,0,0
+CF064,Sled Push,Empuje de trineo,CrossFit,Sled,Intermediate,Push,0,0,0,0,1,0,0
+CF065,Sled Pull,Arrastre de trineo,CrossFit,Sled,Intermediate,Pull,0,0,0,0,1,0,0
+CF066,Medicine Ball Clean,Cargada con balón medicinal,CrossFit,Medicine Ball,Intermediate,Pull,0,0,0,1,1,0,0
+CF067,Medicine Ball Slam,Golpe de balón medicinal al piso,CrossFit,Medicine Ball,Beginner,Core,1,0,0,0,1,0,0
+CF068,Wall Walk,Caminata de pies a la pared,CrossFit,None,Advanced,Push,0,0,0,1,1,0,0
+CF069,Row for Calories,Remo por calorías,CrossFit,Concept2 Rower,Beginner,Pull,0,0,0,0,1,0,0
+CF070,Bike Calories,Bicicleta de asalto por calorías,CrossFit,Assault Bike,Beginner,Run,0,0,0,0,1,0,0
+CF071,Ski Erg for Calories,Esquí por calorías,CrossFit,SkiErg,Beginner,Pull,0,0,0,0,1,0,0
+MB007,Arm Circles,Círculos de brazos para activar hombros,Mobility,None,Beginner,Push,1,1,0,0,0,0,0
+MB008,Leg Swings,Balanceos de pierna para activar cadera,Mobility,None,Beginner,Hinge,1,1,0,0,0,0,0
+MB009,Hip Circles,Círculos de cadera,Mobility,None,Beginner,Hinge,1,1,0,0,0,0,0
+MB010,Ankle Circles,Círculos de tobillo,Mobility,None,Beginner,Squat,1,1,0,0,0,0,0
+MB011,Neck Rolls,Movilidad de cuello,Mobility,None,Beginner,Core,1,1,0,0,0,0,1
+MB012,Wrist Circles,Movilidad de muñeca,Mobility,None,Beginner,Push,1,1,0,0,0,0,0
+MB013,Thoracic Spine Rotation,Rotación de columna torácica,Mobility,None,Beginner,Core,1,1,0,0,0,0,0
+MB014,Cossack Squat,Sentadilla lateral profunda,Mobility,None,Intermediate,Squat,1,1,0,0,0,0,0
+MB015,Spiderman Lunge with Rotation,Zancada araña con rotación,Mobility,None,Intermediate,Lunge,1,1,0,0,0,0,0
+MB016,Inchworm,Caminata de gusano hasta plancha,Mobility,None,Beginner,Core,1,1,0,0,0,0,0
+MB017,Downward Dog,Postura del perro boca abajo,Mobility,None,Beginner,Push,0,1,0,0,0,0,1
+MB018,Cobra Stretch,Estiramiento de cobra para el core,Mobility,None,Beginner,Core,0,1,0,0,0,0,1
+MB019,Quad Stretch,Estiramiento de cuádriceps de pie,Mobility,None,Beginner,Squat,0,1,0,0,0,0,1
+MB020,Butterfly Stretch,Estiramiento de mariposa para cadera,Mobility,None,Beginner,Hinge,0,1,0,0,0,0,1
+MB021,Frog Stretch,Estiramiento de rana para ingles,Mobility,None,Beginner,Hinge,0,1,0,0,0,0,1
+MB022,90/90 Hip Stretch,Estiramiento de cadera en posición 90/90,Mobility,None,Intermediate,Hinge,0,1,0,0,0,0,1
+MB023,Couch Stretch,Estiramiento de flexor de cadera en sofá,Mobility,None,Intermediate,Lunge,0,1,0,0,0,0,1
+MB024,Band Pull Apart,Apertura de banda para hombros,Mobility,None,Beginner,Pull,1,1,0,0,0,0,0
+MB025,Scapular Push-up,Flexión escapular,Mobility,None,Beginner,Push,1,1,0,0,0,0,0
+MB026,Standing Forward Fold,Flexión de pie hacia adelante,Mobility,None,Beginner,Hinge,0,1,0,0,0,0,1
+MB027,Thread the Needle,Estiramiento de hombro enhebrando la aguja,Mobility,None,Beginner,Core,0,1,0,0,0,0,1
+MB028,Jefferson Curl,Flexión de columna vértebra a vértebra,Mobility,None,Intermediate,Hinge,0,1,0,0,0,0,1
+MB029,Deep Squat Hold,Sostén de sentadilla profunda,Mobility,None,Beginner,Squat,1,1,0,0,0,0,1
+MB030,Calf Stretch,Estiramiento de pantorrilla en pared,Mobility,None,Beginner,Hinge,0,1,0,0,0,0,1
