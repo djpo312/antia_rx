@@ -211,13 +211,28 @@ class DashboardPage extends ConsumerWidget {
               ),
             ),
             title: Text(exercise.name),
-            subtitle: Text(
-              [
-                if (exercise.reps != null) "${exercise.reps} reps",
-                if (exercise.weight != null) exercise.weight!,
-                if (exercise.equipment != null && exercise.equipment != "None")
-                  exercise.equipment!,
-              ].join(" • "),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  [
+                    if (exercise.reps != null) "${exercise.reps} reps",
+                    if (exercise.duration != null) exercise.duration!,
+                    if (exercise.distance != null) exercise.distance!,
+                    if (exercise.weight != null) exercise.weight!,
+                    if (exercise.equipment != null &&
+                        exercise.equipment != "None" &&
+                        exercise.equipment != "Run")
+                      exercise.equipment!,
+                  ].join(" • "),
+                ),
+                if (exercise.notes != null)
+                  Text(
+                    exercise.notes!,
+                    style: const TextStyle(color: Colors.white38, fontSize: 12),
+                  ),
+              ],
             ),
           ),
         ),

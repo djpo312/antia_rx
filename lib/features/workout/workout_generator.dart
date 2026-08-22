@@ -15,6 +15,12 @@ import 'generators/emom_generator.dart';
 import 'generators/for_time_generator.dart';
 import 'generators/chipper_generator.dart';
 import 'generators/rounds_generator.dart';
+import 'generators/tabata_generator.dart';
+import 'generators/death_by_generator.dart';
+import 'generators/ladder_generator.dart';
+import 'generators/interval_generator.dart';
+import 'generators/buy_in_cash_out_generator.dart';
+import 'generators/benchmark_wods.dart';
 
 import 'generators/wod_format.dart';
 import 'generators/wod_format_generator.dart';
@@ -35,6 +41,12 @@ class WorkoutGenerator {
     forTimeGenerator = ForTimeGenerator(repository, random: random);
     chipperGenerator = ChipperGenerator(repository, random: random);
     roundsGenerator = RoundsGenerator(repository, random: random);
+    tabataGenerator = TabataGenerator(repository, random: random);
+    deathByGenerator = DeathByGenerator(repository, random: random);
+    ladderGenerator = LadderGenerator(repository, random: random);
+    intervalGenerator = IntervalGenerator(repository, random: random);
+    buyInCashOutGenerator = BuyInCashOutGenerator(repository, random: random);
+    benchmarkGenerator = BenchmarkGenerator(random: random);
 
     wodFormatGenerator = WodFormatGenerator(random: random);
   }
@@ -52,6 +64,12 @@ class WorkoutGenerator {
   late final ForTimeGenerator forTimeGenerator;
   late final ChipperGenerator chipperGenerator;
   late final RoundsGenerator roundsGenerator;
+  late final TabataGenerator tabataGenerator;
+  late final DeathByGenerator deathByGenerator;
+  late final LadderGenerator ladderGenerator;
+  late final IntervalGenerator intervalGenerator;
+  late final BuyInCashOutGenerator buyInCashOutGenerator;
+  late final BenchmarkGenerator benchmarkGenerator;
 
   late final WodFormatGenerator wodFormatGenerator;
 
@@ -122,6 +140,12 @@ class WorkoutGenerator {
     int minutes,
     Map<int, String> equipmentNames,
   ) async {
+    // Murph es el WOD oficial del Memorial Day: si hoy es esa fecha, se
+    // muestra siempre, sin importar el formato que hubiera tocado al azar.
+    if (isMemorialDay(DateTime.now())) {
+      return buildBenchmarkSection(murphWod, minutes);
+    }
+
     final format = wodFormatGenerator.randomFormat();
 
     switch (format) {
@@ -139,6 +163,24 @@ class WorkoutGenerator {
 
       case WodFormat.rounds:
         return await roundsGenerator.generate(minutes, equipmentNames);
+
+      case WodFormat.tabata:
+        return await tabataGenerator.generate(minutes, equipmentNames);
+
+      case WodFormat.deathBy:
+        return await deathByGenerator.generate(minutes, equipmentNames);
+
+      case WodFormat.ladder:
+        return await ladderGenerator.generate(minutes, equipmentNames);
+
+      case WodFormat.interval:
+        return await intervalGenerator.generate(minutes, equipmentNames);
+
+      case WodFormat.buyInCashOut:
+        return await buyInCashOutGenerator.generate(minutes, equipmentNames);
+
+      case WodFormat.benchmark:
+        return benchmarkGenerator.generate(minutes);
     }
   }
 

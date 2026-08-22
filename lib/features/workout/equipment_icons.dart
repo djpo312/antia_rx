@@ -16,6 +16,7 @@ const Map<String, String> _equipmentEmoji = {
   "Sandbag": "🎒",
   "Sled": "🛷",
   "Medicine Ball": "⚽",
+  "Run": "🏃",
 };
 
 /// Devuelve el emoji del equipo, o un ícono genérico si no lo reconoce.

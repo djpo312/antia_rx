@@ -1,4 +1,16 @@
-enum WodFormat { amrap, emom, forTime, chipper, rounds }
+enum WodFormat {
+  amrap,
+  emom,
+  forTime,
+  chipper,
+  rounds,
+  tabata,
+  deathBy,
+  ladder,
+  interval,
+  buyInCashOut,
+  benchmark,
+}
 
 extension WodFormatExtension on WodFormat {
   String get title {
@@ -17,6 +29,24 @@ extension WodFormatExtension on WodFormat {
 
       case WodFormat.rounds:
         return "ROUNDS";
+
+      case WodFormat.tabata:
+        return "TABATA";
+
+      case WodFormat.deathBy:
+        return "DEATH BY";
+
+      case WodFormat.ladder:
+        return "LADDER";
+
+      case WodFormat.interval:
+        return "INTERVALOS";
+
+      case WodFormat.buyInCashOut:
+        return "BUY-IN / CASH-OUT";
+
+      case WodFormat.benchmark:
+        return "WOD FAMOSO";
     }
   }
 }

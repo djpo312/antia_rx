@@ -139,7 +139,8 @@ class WorkoutSectionsView extends StatelessWidget {
                         if (exercise.duration != null) exercise.duration!,
                         if (exercise.distance != null) exercise.distance!,
                         if (exercise.equipment != null &&
-                            exercise.equipment != "None")
+                            exercise.equipment != "None" &&
+                            exercise.equipment != "Run")
                           exercise.equipment!,
                       ].join(" • "),
                       style: const TextStyle(color: Colors.white60, fontSize: 13),

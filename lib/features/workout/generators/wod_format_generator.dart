@@ -27,6 +27,24 @@ class WodFormatGenerator {
 
       case WodFormat.rounds:
         return "${3 + random.nextInt(3)} Rondas";
+
+      case WodFormat.tabata:
+        return "Tabata (8 rondas 20\"/10\")";
+
+      case WodFormat.deathBy:
+        return "Death By";
+
+      case WodFormat.ladder:
+        return "Ladder";
+
+      case WodFormat.interval:
+        return "Intervalos";
+
+      case WodFormat.buyInCashOut:
+        return "Buy-in / Cash-out";
+
+      case WodFormat.benchmark:
+        return "WOD famoso";
     }
   }
 }
