@@ -49,40 +49,96 @@ class AppStorageService {
   }
 
   // --- Seguimiento de WODs completados ---
+  // [category] identifica la sección ("crossfit", "posparto", ...). El
+  // valor por defecto ("crossfit") usa la misma clave que ya se guardaba
+  // antes de que existiera más de una categoría, así el historial viejo
+  // se sigue leyendo igual.
 
-  Map<String, String> get _completedWods {
-    final raw = _data['completedWods'] as Map<String, dynamic>?;
+  String _completedWodsKey(String category) =>
+      category == "crossfit" ? "completedWods" : "completedWods_$category";
+
+  Map<String, String> _completedWods(String category) {
+    final raw = _data[_completedWodsKey(category)] as Map<String, dynamic>?;
     if (raw == null) return {};
     return raw.map((key, value) => MapEntry(key, value as String));
   }
 
-  bool isWodCompleted(DateTime date) =>
-      _completedWods.containsKey(_dateKey(date));
+  bool isWodCompleted(DateTime date, {String category = "crossfit"}) =>
+      _completedWods(category).containsKey(_dateKey(date));
 
-  Future<void> markWodCompleted(DateTime date) async {
-    final completed = Map<String, String>.from(_completedWods);
+  Future<void> markWodCompleted(
+    DateTime date, {
+    String category = "crossfit",
+  }) async {
+    final completed = Map<String, String>.from(_completedWods(category));
     completed[_dateKey(date)] = DateTime.now().toIso8601String();
-    _data['completedWods'] = completed;
+    _data[_completedWodsKey(category)] = completed;
     await _save();
   }
 
-  Future<void> unmarkWodCompleted(DateTime date) async {
-    final completed = Map<String, String>.from(_completedWods);
+  Future<void> unmarkWodCompleted(
+    DateTime date, {
+    String category = "crossfit",
+  }) async {
+    final completed = Map<String, String>.from(_completedWods(category));
     completed.remove(_dateKey(date));
-    _data['completedWods'] = completed;
+    _data[_completedWodsKey(category)] = completed;
     await _save();
   }
 
   /// Cuántos WODs marcó como hechos en los últimos [days] días (incluye hoy).
-  int completedWodsInLast(int days) {
+  int completedWodsInLast(int days, {String category = "crossfit"}) {
     final now = DateTime.now();
 
-    return _completedWods.keys.where((key) {
+    return _completedWods(category).keys.where((key) {
       final date = DateTime.tryParse(key);
       if (date == null) return false;
       final diff = now.difference(date).inDays;
       return diff >= 0 && diff < days;
     }).length;
+  }
+
+  // --- WODs guardados como favoritos ---
+  // Guarda solo la fecha (+ categoría): el contenido se puede regenerar
+  // de forma reproducible con la misma semilla (ver dateSeed en
+  // workout_provider.dart), así que no hace falta duplicar el WOD entero.
+
+  String _favoriteWodsKey(String category) => "favoriteWods_$category";
+
+  Set<String> _favoriteWodDateKeys(String category) {
+    final raw = _data[_favoriteWodsKey(category)] as List<dynamic>?;
+    if (raw == null) return {};
+    return raw.map((e) => e.toString()).toSet();
+  }
+
+  bool isWodFavorited(DateTime date, {String category = "crossfit"}) =>
+      _favoriteWodDateKeys(category).contains(_dateKey(date));
+
+  Future<void> toggleWodFavorite(
+    DateTime date, {
+    String category = "crossfit",
+  }) async {
+    final favorites = _favoriteWodDateKeys(category);
+    final key = _dateKey(date);
+
+    if (favorites.contains(key)) {
+      favorites.remove(key);
+    } else {
+      favorites.add(key);
+    }
+
+    _data[_favoriteWodsKey(category)] = favorites.toList();
+    await _save();
+  }
+
+  /// Fechas favoritas de [category], más reciente primero.
+  List<DateTime> favoriteWodDates({String category = "crossfit"}) {
+    final dates = _favoriteWodDateKeys(
+      category,
+    ).map((key) => DateTime.tryParse(key)).whereType<DateTime>().toList();
+
+    dates.sort((a, b) => b.compareTo(a));
+    return dates;
   }
 
   String _dateKey(DateTime date) =>

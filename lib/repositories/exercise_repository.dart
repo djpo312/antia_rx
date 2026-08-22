@@ -45,6 +45,59 @@ class ExerciseRepository {
     )..where((tbl) => tbl.isCooldown.equals(true))).get();
   }
 
+  // --- Consultas filtradas por categoría, para secciones (como Gym
+  // Posparto) que no deben mezclar ejercicios de CrossFit/Mobility. Las
+  // consultas de arriba se dejan intactas para no arriesgar el generador
+  // de CrossFit, que ya depende de que no filtren por categoría. ---
+
+  Future<List<Exercise>> getWarmupExercisesForCategory(
+    String categoryName,
+  ) async {
+    final category = await database.getCategoryByName(categoryName);
+    if (category == null) return [];
+
+    return (database.select(database.exercises)
+          ..where((tbl) => tbl.categoryId.equals(category.id))
+          ..where((tbl) => tbl.isWarmup.equals(true)))
+        .get();
+  }
+
+  Future<List<Exercise>> getSkillExercisesForCategory(
+    String categoryName,
+  ) async {
+    final category = await database.getCategoryByName(categoryName);
+    if (category == null) return [];
+
+    return (database.select(database.exercises)
+          ..where((tbl) => tbl.categoryId.equals(category.id))
+          ..where((tbl) => tbl.isSkill.equals(true)))
+        .get();
+  }
+
+  Future<List<Exercise>> getStrengthExercisesForCategory(
+    String categoryName,
+  ) async {
+    final category = await database.getCategoryByName(categoryName);
+    if (category == null) return [];
+
+    return (database.select(database.exercises)
+          ..where((tbl) => tbl.categoryId.equals(category.id))
+          ..where((tbl) => tbl.isStrength.equals(true)))
+        .get();
+  }
+
+  Future<List<Exercise>> getCooldownExercisesForCategory(
+    String categoryName,
+  ) async {
+    final category = await database.getCategoryByName(categoryName);
+    if (category == null) return [];
+
+    return (database.select(database.exercises)
+          ..where((tbl) => tbl.categoryId.equals(category.id))
+          ..where((tbl) => tbl.isCooldown.equals(true)))
+        .get();
+  }
+
   /// Mapa id -> nombre del equipo (Barbell, Dumbbell, Kettlebell, ...),
   /// para mostrar un ícono por tipo de equipo en cada ejercicio.
   Future<Map<int, String>> getEquipmentNames() async {

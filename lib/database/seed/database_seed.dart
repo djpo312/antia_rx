@@ -16,21 +16,13 @@ class DatabaseSeed {
   Future<void> initialize({bool forceReseedExercises = false}) async {
     print("🚀 Iniciando importación...");
 
-    if ((await database.select(database.categories).get()).isEmpty) {
-      await _importCategories();
-    }
-
-    if ((await database.select(database.equipment).get()).isEmpty) {
-      await _importEquipment();
-    }
-
-    if ((await database.select(database.difficultyLevels).get()).isEmpty) {
-      await _importDifficultyLevels();
-    }
-
-    if ((await database.select(database.movementPatterns).get()).isEmpty) {
-      await _importMovementPatterns();
-    }
+    // Estas 4 son idempotentes (solo insertan lo que falte), así que
+    // corren siempre: si se agrega una categoría/equipo nuevo al CSV
+    // (ej. "Gym Posparto") aparece solo al abrir la app, sin desinstalar.
+    await _importCategories();
+    await _importEquipment();
+    await _importDifficultyLevels();
+    await _importMovementPatterns();
 
     if (forceReseedExercises) {
       print("🔄 Catálogo de ejercicios desactualizado, reimportando...");
@@ -45,16 +37,16 @@ class DatabaseSeed {
   }
 
   Future<void> _importCategories() async {
-    print("Leyendo categories.csv...");
-
     final rows = await importer.load("assets/catalog/categories.csv");
 
-    print(rows);
-
     for (int i = 1; i < rows.length; i++) {
+      final name = rows[i][1].toString();
+
+      if (await database.getCategoryByName(name) != null) continue;
+
       await database
           .into(database.categories)
-          .insert(CategoriesCompanion.insert(name: rows[i][1].toString()));
+          .insert(CategoriesCompanion.insert(name: name));
     }
 
     print("Categorías importadas");
@@ -63,15 +55,14 @@ class DatabaseSeed {
   Future<void> _importEquipment() async {
     final rows = await importer.load("assets/catalog/equipment.csv");
 
-    print("===== EQUIPMENT CSV =====");
-    print(rows);
-
     for (int i = 1; i < rows.length; i++) {
-      print("Insertando: ${rows[i][1]}");
+      final name = rows[i][1].toString();
+
+      if (await database.getEquipmentByName(name) != null) continue;
 
       await database
           .into(database.equipment)
-          .insert(EquipmentCompanion.insert(name: rows[i][1].toString()));
+          .insert(EquipmentCompanion.insert(name: name));
     }
 
     print("Equipamiento importado");
@@ -81,11 +72,13 @@ class DatabaseSeed {
     final rows = await importer.load("assets/catalog/difficulty_levels.csv");
 
     for (int i = 1; i < rows.length; i++) {
+      final name = rows[i][1].toString();
+
+      if (await database.getDifficultyByName(name) != null) continue;
+
       await database
           .into(database.difficultyLevels)
-          .insert(
-            DifficultyLevelsCompanion.insert(name: rows[i][1].toString()),
-          );
+          .insert(DifficultyLevelsCompanion.insert(name: name));
     }
 
     print("Dificultades importadas");
@@ -95,11 +88,13 @@ class DatabaseSeed {
     final rows = await importer.load("assets/catalog/movement_patterns.csv");
 
     for (int i = 1; i < rows.length; i++) {
+      final name = rows[i][1].toString();
+
+      if (await database.getMovementByName(name) != null) continue;
+
       await database
           .into(database.movementPatterns)
-          .insert(
-            MovementPatternsCompanion.insert(name: rows[i][1].toString()),
-          );
+          .insert(MovementPatternsCompanion.insert(name: name));
     }
 
     print("Patrones importados");

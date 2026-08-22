@@ -7,6 +7,7 @@ import '../../core/utils/spanish_date.dart';
 import '../../providers/app_storage_provider.dart';
 import '../crossfit/crossfit_page.dart';
 import '../gym/gym_page.dart';
+import '../gym/gym_posparto_page.dart';
 import '../hyrox/hyrox_page.dart';
 import '../running/running_page.dart';
 import '../workout/equipment_icons.dart';
@@ -98,6 +99,13 @@ class DashboardPage extends ConsumerWidget {
 
             _menuCard(
               context,
+              Icons.child_friendly,
+              "Gym Posparto",
+              const GymPospartoPage(),
+            ),
+
+            _menuCard(
+              context,
               Icons.auto_awesome,
               "Generador de WOD",
               const WorkoutBuilderPage(),
@@ -138,7 +146,7 @@ class DashboardPage extends ConsumerWidget {
                     const SizedBox(height: 15),
 
                     Text(
-                      "🏋 Entrenamientos: ${ref.watch(weeklyCompletedWodsProvider)}",
+                      "🏋 Entrenamientos: ${ref.watch(weeklyCompletedWodsProvider("crossfit")) + ref.watch(weeklyCompletedWodsProvider("posparto"))}",
                     ),
                     const Text("🔥 Calorías: 0"),
                     const Text("⏱ Tiempo: 0 min"),

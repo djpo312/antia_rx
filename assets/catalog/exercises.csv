@@ -100,3 +100,27 @@ MB027,Thread the Needle,Estiramiento de hombro enhebrando la aguja,Mobility,None
 MB028,Jefferson Curl,Flexión de columna vértebra a vértebra,Mobility,None,Intermediate,Hinge,0,1,0,0,0,0,1
 MB029,Deep Squat Hold,Sostén de sentadilla profunda,Mobility,None,Beginner,Squat,1,1,0,0,0,0,1
 MB030,Calf Stretch,Estiramiento de pantorrilla en pared,Mobility,None,Beginner,Hinge,0,1,0,0,0,0,1
+GP001,Respiración Diafragmática,Respiración profunda activando el diafragma y el core,Gym Posparto,None,Beginner,Core,1,0,0,0,0,0,1
+GP002,Marcha en el Sitio,Caminata suave levantando rodillas sin impacto,Gym Posparto,None,Beginner,Core,1,0,0,0,0,0,0
+GP003,Inclinación Pélvica,Báscula de pelvis acostada para activar el core profundo,Gym Posparto,None,Beginner,Hinge,1,0,0,1,0,0,0
+GP004,Cat Cow Posparto,Movilidad de columna gato-vaca en cuatro puntos,Gym Posparto,None,Beginner,Core,1,0,0,0,0,0,1
+GP005,Rotación Suave de Hombros,Círculos de hombro para liberar tensión,Gym Posparto,None,Beginner,Push,1,0,0,0,0,0,0
+GP006,Activación de Piso Pélvico,Contracción y relajación consciente del piso pélvico,Gym Posparto,None,Beginner,Core,0,0,0,1,0,0,0
+GP007,Dead Bug,Extensión alterna de brazo y pierna contraria manteniendo el core estable,Gym Posparto,None,Beginner,Core,0,0,0,1,0,0,0
+GP008,Bird Dog,Extensión de brazo y pierna opuesta en cuatro puntos,Gym Posparto,None,Beginner,Core,0,0,0,1,0,0,0
+GP009,Deslizamiento de Talón,Deslizar el talón activando el abdomen bajo,Gym Posparto,None,Beginner,Core,0,0,0,1,0,0,0
+GP010,Plancha en Rodillas,Plancha modificada apoyada en rodillas para un core seguro,Gym Posparto,None,Beginner,Core,0,0,0,1,0,0,0
+GP011,Respiración 360 con Core,Respiración lateral activando el core de forma completa,Gym Posparto,None,Beginner,Core,0,0,0,1,0,0,0
+GP012,Elevación Lateral de Pierna,Elevación de pierna acostada de lado para glúteo medio,Gym Posparto,None,Beginner,Hinge,0,0,0,1,0,0,0
+GP013,Puente de Glúteos,Elevación de cadera acostada activando glúteo y core,Gym Posparto,None,Beginner,Hinge,0,0,1,0,0,0,0
+GP014,Sentadilla Sumo sin Peso,Sentadilla amplia con peso corporal,Gym Posparto,None,Beginner,Squat,0,0,1,0,0,0,0
+GP015,Flexión de Pared,Flexión de pecho apoyada en la pared,Gym Posparto,None,Beginner,Push,0,0,1,0,0,0,0
+GP016,Remo con Mancuerna Ligera,Remo a un brazo con mancuerna liviana,Gym Posparto,Dumbbell,Beginner,Pull,0,0,1,0,0,0,0
+GP017,Puente de Glúteos a Una Pierna,Puente de glúteos alternando una pierna,Gym Posparto,None,Beginner,Hinge,0,0,1,0,0,0,0
+GP018,Sentadilla en Silla,Sentarse y levantarse de una silla con control,Gym Posparto,None,Beginner,Squat,0,0,1,0,0,0,0
+GP019,Zancada Estática Asistida,Zancada suave con apoyo para el equilibrio,Gym Posparto,None,Beginner,Lunge,0,0,1,0,0,0,0
+GP020,Press de Hombro con Mancuerna Ligera,Press de hombro sentada con mancuerna liviana,Gym Posparto,Dumbbell,Beginner,Push,0,0,1,0,0,0,0
+GP021,Postura del Niño Posparto,Estiramiento de espalda y cadera en postura del niño,Gym Posparto,None,Beginner,Core,0,0,0,0,0,0,1
+GP022,Estiramiento de Pecho,Apertura de pecho y hombros de pie,Gym Posparto,None,Beginner,Push,0,0,0,0,0,0,1
+GP023,Estiramiento Suave de Cadera,Estiramiento de cadera sentada sin forzar,Gym Posparto,None,Beginner,Hinge,0,0,0,0,0,0,1
+GP024,Respiración de Cierre,Respiración profunda final para bajar pulsaciones,Gym Posparto,None,Beginner,Core,0,0,0,0,0,0,1

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/app_version.dart';
+import '../../core/utils/spanish_date.dart';
 import '../../providers/app_storage_provider.dart';
+import '../workout/favorite_wod_detail_page.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -44,7 +46,19 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userName = ref.watch(userNameProvider) ?? "";
-    final weeklyWods = ref.watch(weeklyCompletedWodsProvider);
+    final weeklyCrossfit = ref.watch(weeklyCompletedWodsProvider("crossfit"));
+    final weeklyPosparto = ref.watch(weeklyCompletedWodsProvider("posparto"));
+
+    final favoriteCrossfit = ref
+        .watch(favoriteWodDatesProvider("crossfit"))
+        .map((date) => (date: date, category: "crossfit"))
+        .toList();
+    final favoritePosparto = ref
+        .watch(favoriteWodDatesProvider("posparto"))
+        .map((date) => (date: date, category: "posparto"))
+        .toList();
+    final favorites = [...favoriteCrossfit, ...favoritePosparto]
+      ..sort((a, b) => b.date.compareTo(a.date));
 
     return Scaffold(
       appBar: AppBar(title: const Text('Perfil')),
@@ -81,15 +95,81 @@ class ProfilePage extends ConsumerWidget {
           const SizedBox(height: 24),
 
           Card(
-            child: ListTile(
-              leading: const Icon(Icons.check_circle_outline, color: Colors.green),
-              title: const Text("WODs completados esta semana"),
-              trailing: Text(
-                "$weeklyWods",
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const Icon(
+                    Icons.check_circle_outline,
+                    color: Colors.green,
+                  ),
+                  title: const Text("CrossFit completados esta semana"),
+                  trailing: Text(
+                    "$weeklyCrossfit",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const Divider(height: 1),
+                ListTile(
+                  leading: const Icon(
+                    Icons.child_friendly,
+                    color: Colors.green,
+                  ),
+                  title: const Text("Gym Posparto completados esta semana"),
+                  trailing: Text(
+                    "$weeklyPosparto",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
+
+          if (favorites.isNotEmpty) ...[
+            const SizedBox(height: 24),
+
+            const Text(
+              "WODs favoritos",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 8),
+
+            Card(
+              child: Column(
+                children: [
+                  for (final favorite in favorites)
+                    ListTile(
+                      leading: const Icon(
+                        Icons.favorite,
+                        color: Colors.redAccent,
+                      ),
+                      title: Text(formatSpanishDate(favorite.date)),
+                      subtitle: Text(
+                        favorite.category == "posparto"
+                            ? "Gym Posparto"
+                            : "CrossFit",
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => FavoriteWodDetailPage(
+                            date: favorite.date,
+                            category: favorite.category,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
 
           const SizedBox(height: 32),
 
