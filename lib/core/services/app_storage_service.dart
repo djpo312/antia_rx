@@ -1,43 +1,45 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-/// Persistencia simple en un archivo JSON local: el nombre del usuario
-/// (para personalizar la app) y los días en que marcó su WOD como hecho
-/// (para llevar seguimiento). No usa una tabla de Drift porque es
-/// configuración liviana, no un catálogo de datos.
+/// Persistencia simple en un solo valor JSON: el nombre del usuario (para
+/// personalizar la app) y los días en que marcó su WOD como hecho (para
+/// llevar seguimiento). Usa shared_preferences en vez de un archivo propio
+/// porque funciona igual en Android/iOS/desktop y en la versión web (PWA),
+/// sin código específico por plataforma. No usa una tabla de Drift porque
+/// es configuración liviana, no un catálogo de datos.
 class AppStorageService {
-  AppStorageService._(this._file, this._data);
+  AppStorageService._(this._prefs, this._data);
 
-  final File _file;
+  static const _storageKey = 'app_prefs_json';
+
+  final SharedPreferences? _prefs;
   final Map<String, dynamic> _data;
 
   /// Instancia en memoria sin tocar disco, para widget tests.
-  factory AppStorageService.empty() =>
-      AppStorageService._(File('_unused_in_tests.json'), {});
+  factory AppStorageService.empty() => AppStorageService._(null, {});
 
   static Future<AppStorageService> load() async {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dir.path, 'app_prefs.json'));
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(_storageKey);
 
     Map<String, dynamic> data = {};
 
-    if (await file.exists()) {
+    if (raw != null) {
       try {
-        final raw = await file.readAsString();
         data = jsonDecode(raw) as Map<String, dynamic>;
       } catch (_) {
-        // Archivo corrupto o vacío: arrancamos de cero sin tronar la app.
+        // Valor corrupto o vacío: arrancamos de cero sin tronar la app.
         data = {};
       }
     }
 
-    return AppStorageService._(file, data);
+    return AppStorageService._(prefs, data);
   }
 
-  Future<void> _save() => _file.writeAsString(jsonEncode(_data));
+  Future<void> _save() async {
+    await _prefs?.setString(_storageKey, jsonEncode(_data));
+  }
 
   // --- Nombre del usuario ---
 

@@ -1,9 +1,5 @@
-import 'dart:io';
-
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
+import 'connection/connection.dart' as impl;
 import '../features/exercises/exercise_list_item.dart';
 
 part 'app_database.g.dart';
@@ -257,10 +253,4 @@ class ExerciseTagRelations extends Table {
   Set<Column> get primaryKey => {exerciseId, tagId};
 }
 
-LazyDatabase _openConnection() {
-  return LazyDatabase(() async {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dir.path, 'vida_asistente.sqlite'));
-    return NativeDatabase.createInBackground(file);
-  });
-}
+LazyDatabase _openConnection() => impl.openConnection();
