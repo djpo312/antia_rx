@@ -58,6 +58,15 @@ const Map<String, double> _rxWeightsLb = {
   "Elevación Lateral": 12,
   "Vuelo Posterior": 12,
   "Curl Martillo": 25,
+
+  // Máquinas de gimnasio (por grupo muscular)
+  "Prensa de Piernas": 270,
+  "Máquina de Hip Thrust": 120,
+  "Press de Pecho en Máquina": 100,
+  "Press Inclinado en Máquina": 90,
+  "Jalón al Pecho": 100,
+  "Remo en Máquina Sentado": 100,
+  "Press de Hombro en Máquina": 70,
 };
 
 /// Sugerencia de peso para los 3 niveles estándar de CrossFit.

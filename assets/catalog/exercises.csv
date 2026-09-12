@@ -148,3 +148,27 @@ GY021,Plancha Gimnasio,Plancha isométrica de core,Gym,None,Beginner,Core,0,0,0,
 GY022,Estiramiento de Cuádriceps Gimnasio,Estiramiento de cuádriceps de pie,Gym,None,Beginner,Squat,0,0,0,0,0,0,1
 GY023,Estiramiento de Isquiotibiales Gimnasio,Estiramiento de isquiotibiales sentado,Gym,None,Beginner,Hinge,0,0,0,0,0,0,1
 GY024,Estiramiento de Hombro Gimnasio,Estiramiento cruzado de hombro,Gym,None,Beginner,Push,0,0,0,0,0,0,1
+GY025,Prensa de Piernas,Extensión de piernas empujando una plataforma en máquina de prensa,Gym,Machine,Intermediate,Squat,0,0,1,0,0,0,0
+GY026,Extensión de Cuádriceps en Máquina,Extensión de rodilla sentado en máquina,Gym,Machine,Beginner,Squat,0,0,0,0,0,1,0
+GY027,Curl Femoral en Máquina,Flexión de rodilla acostado en máquina,Gym,Machine,Beginner,Hinge,0,0,0,0,0,1,0
+GY028,Máquina de Abductores,Separación de piernas contra resistencia en máquina,Gym,Machine,Beginner,Hinge,0,0,0,0,0,1,0
+GY029,Máquina de Aductores,Cierre de piernas contra resistencia en máquina,Gym,Machine,Beginner,Hinge,0,0,0,0,0,1,0
+GY030,Elevación de Pantorrilla en Máquina,Elevación de talones de pie en máquina,Gym,Machine,Beginner,Squat,0,0,0,0,0,1,0
+GY031,Máquina de Hip Thrust,Empuje de cadera sentado en máquina,Gym,Machine,Intermediate,Hinge,0,0,1,0,0,0,0
+GY032,Patada de Glúteo en Máquina,Extensión de cadera de pie en máquina,Gym,Machine,Beginner,Hinge,0,0,0,0,0,1,0
+GY033,Press de Pecho en Máquina,Empuje horizontal sentado en máquina,Gym,Machine,Intermediate,Push,0,0,1,0,0,0,0
+GY034,Aperturas en Máquina (Pec Deck),Apertura de pecho sentado en máquina,Gym,Machine,Beginner,Push,0,0,0,0,0,1,0
+GY035,Cruce de Poleas,Aperturas de pecho con cable cruzado de poleas,Gym,Machine,Intermediate,Push,0,0,0,0,0,1,0
+GY036,Press Inclinado en Máquina,Empuje inclinado sentado en máquina,Gym,Machine,Intermediate,Push,0,0,1,0,0,0,0
+GY037,Máquina de Abdominales,Crunch sentado contra resistencia en máquina,Gym,Machine,Beginner,Core,0,0,0,0,0,1,0
+GY038,Giro de Torso en Máquina,Rotación de tronco sentado en máquina,Gym,Machine,Beginner,Core,0,0,0,0,0,1,0
+GY039,Elevación de Piernas en Paralelas,Elevación de rodillas colgado en soporte con apoyo,Gym,Machine,Intermediate,Core,0,0,0,0,0,1,0
+GY040,Jalón al Pecho,Tirón vertical sentado en máquina con polea alta,Gym,Machine,Intermediate,Pull,0,0,1,0,0,0,0
+GY041,Remo en Máquina Sentado,Tirón horizontal sentado en máquina,Gym,Machine,Intermediate,Pull,0,0,1,0,0,0,0
+GY042,Remo en Polea Baja,Tirón horizontal sentado con polea baja,Gym,Machine,Intermediate,Pull,0,0,0,0,0,1,0
+GY043,Extensión Lumbar en Máquina,Extensión de espalda baja en banco romano,Gym,Machine,Beginner,Hinge,0,0,0,0,0,1,0
+GY044,Press de Hombro en Máquina,Empuje vertical sentado en máquina,Gym,Machine,Intermediate,Push,0,0,1,0,0,0,0
+GY045,Elevación Lateral en Máquina,Abducción de hombro sentado en máquina,Gym,Machine,Beginner,Push,0,0,0,0,0,1,0
+GY046,Curl de Bíceps en Máquina,Flexión de codo sentado en máquina,Gym,Machine,Beginner,Pull,0,0,0,0,0,1,0
+GY047,Extensión de Tríceps en Polea,Extensión de codo de pie con polea alta,Gym,Machine,Beginner,Push,0,0,0,0,0,1,0
+GY048,Fondos en Máquina Asistida,Fondo de tríceps asistido en máquina,Gym,Machine,Intermediate,Push,0,0,1,0,0,0,0
