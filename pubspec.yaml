@@ -1,5 +1,5 @@
 name: vida_asistente
-description: "Asistente personal de entrenamiento CrossFit, Hyrox y Running."
+description: "ANTIA RX — tu inteligencia para entrenar más fuerte."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.7.0+8
 
 environment:
   sdk: ^3.12.2
@@ -41,6 +41,7 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.39
   path: ^1.9.1
   csv: ^6.0.0
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,7 @@ flutter:
   assets:
     - assets/data/
     - assets/catalog/
+    - assets/branding/logo antia.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

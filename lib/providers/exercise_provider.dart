@@ -1,8 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../features/exercises/exercise_list_item.dart';
-import '../database/app_database.dart';
-import 'database_provider.dart';
+import '../repositories/database_provider.dart';
 import 'search_provider.dart';
 import 'category_provider.dart';
 
