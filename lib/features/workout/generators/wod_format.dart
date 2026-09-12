@@ -10,6 +10,7 @@ enum WodFormat {
   interval,
   buyInCashOut,
   benchmark,
+  complex,
 }
 
 extension WodFormatExtension on WodFormat {
@@ -47,6 +48,9 @@ extension WodFormatExtension on WodFormat {
 
       case WodFormat.benchmark:
         return "WOD FAMOSO";
+
+      case WodFormat.complex:
+        return "COMPLEX";
     }
   }
 }

@@ -45,6 +45,9 @@ class WodFormatGenerator {
 
       case WodFormat.benchmark:
         return "WOD famoso";
+
+      case WodFormat.complex:
+        return "Complex (barra sin soltar)";
     }
   }
 }

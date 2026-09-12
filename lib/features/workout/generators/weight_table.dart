@@ -49,6 +49,15 @@ const Map<String, double> _rxWeightsLb = {
   "Medicine Ball Slam": 20,
   "Sled Push": 135,
   "Sled Pull": 135,
+
+  // Gimnasio (fuerza general y accesorios)
+  "Barbell Row": 115,
+  "Goblet Squat Gimnasio": 50,
+  "Curl de Bíceps": 25,
+  "Extensión de Tríceps": 20,
+  "Elevación Lateral": 12,
+  "Vuelo Posterior": 12,
+  "Curl Martillo": 25,
 };
 
 /// Sugerencia de peso para los 3 niveles estándar de CrossFit.

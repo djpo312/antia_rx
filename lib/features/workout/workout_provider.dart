@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/exercise_repository_provider.dart';
+import 'generators/gym_generator.dart';
 import 'generators/postpartum_generator.dart';
 import 'workout_generator.dart';
 import 'workout_model.dart';
@@ -38,6 +39,15 @@ final dailyPostpartumWorkoutProvider = FutureProvider<WorkoutModel>((
 ) async {
   final repository = ref.watch(exerciseRepositoryProvider);
   final generator = PostpartumGenerator(repository, seed: _todaySeed());
+
+  return generator.generate();
+});
+
+/// Igual que [dailyWorkoutProvider] pero para la sesión de Gimnasio
+/// (misma fecha, generador de fuerza/musculación sin metcon).
+final dailyGymWorkoutProvider = FutureProvider<WorkoutModel>((ref) async {
+  final repository = ref.watch(exerciseRepositoryProvider);
+  final generator = GymGenerator(repository, seed: _todaySeed());
 
   return generator.generate();
 });

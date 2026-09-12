@@ -21,6 +21,7 @@ import 'generators/ladder_generator.dart';
 import 'generators/interval_generator.dart';
 import 'generators/buy_in_cash_out_generator.dart';
 import 'generators/benchmark_wods.dart';
+import 'generators/complex_wods.dart';
 
 import 'generators/wod_format.dart';
 import 'generators/wod_format_generator.dart';
@@ -47,6 +48,7 @@ class WorkoutGenerator {
     intervalGenerator = IntervalGenerator(repository, random: random);
     buyInCashOutGenerator = BuyInCashOutGenerator(repository, random: random);
     benchmarkGenerator = BenchmarkGenerator(random: random);
+    complexGenerator = ComplexGenerator(random: random);
 
     wodFormatGenerator = WodFormatGenerator(random: random);
   }
@@ -70,6 +72,7 @@ class WorkoutGenerator {
   late final IntervalGenerator intervalGenerator;
   late final BuyInCashOutGenerator buyInCashOutGenerator;
   late final BenchmarkGenerator benchmarkGenerator;
+  late final ComplexGenerator complexGenerator;
 
   late final WodFormatGenerator wodFormatGenerator;
 
@@ -181,6 +184,9 @@ class WorkoutGenerator {
 
       case WodFormat.benchmark:
         return benchmarkGenerator.generate(minutes);
+
+      case WodFormat.complex:
+        return complexGenerator.generate(minutes);
     }
   }
 

@@ -124,3 +124,27 @@ GP021,Postura del Niño Posparto,Estiramiento de espalda y cadera en postura del
 GP022,Estiramiento de Pecho,Apertura de pecho y hombros de pie,Gym Posparto,None,Beginner,Push,0,0,0,0,0,0,1
 GP023,Estiramiento Suave de Cadera,Estiramiento de cadera sentada sin forzar,Gym Posparto,None,Beginner,Hinge,0,0,0,0,0,0,1
 GP024,Respiración de Cierre,Respiración profunda final para bajar pulsaciones,Gym Posparto,None,Beginner,Core,0,0,0,0,0,0,1
+GY001,Trote Suave,Trote ligero para elevar el pulso antes de entrenar,Gym,None,Beginner,Run,1,0,0,0,0,0,0
+GY002,Sentadilla sin Peso,Sentadilla con peso corporal para activar piernas,Gym,None,Beginner,Squat,1,0,0,0,0,0,0
+GY003,Círculos de Brazo,Círculos de brazo para activar hombros,Gym,None,Beginner,Push,1,0,0,0,0,0,0
+GY004,Zancada Caminando,Zancadas caminando para activar piernas,Gym,None,Beginner,Lunge,1,0,0,0,0,0,0
+GY005,Back Squat,Sentadilla trasera con barra,Gym,Barbell,Intermediate,Squat,0,0,1,0,0,0,0
+GY006,Deadlift,Peso muerto convencional,Gym,Barbell,Intermediate,Hinge,0,0,1,0,0,0,0
+GY007,Bench Press,Press de banca con barra,Gym,Barbell,Intermediate,Push,0,0,1,0,0,0,0
+GY008,Overhead Press,Press militar de pie,Gym,Barbell,Intermediate,Push,0,0,1,0,0,0,0
+GY009,Barbell Row,Remo con barra inclinado,Gym,Barbell,Intermediate,Pull,0,0,1,0,0,0,0
+GY010,Remo con Mancuerna,Remo a un brazo apoyado en banco,Gym,Dumbbell,Beginner,Pull,0,0,1,0,0,0,0
+GY011,Zancada con Mancuernas,Zancada caminando con mancuernas,Gym,Dumbbell,Intermediate,Lunge,0,0,1,0,0,0,0
+GY012,Goblet Squat Gimnasio,Sentadilla con mancuerna al pecho,Gym,Dumbbell,Beginner,Squat,0,0,1,0,0,0,0
+GY013,Curl de Bíceps,Curl de bíceps con mancuernas,Gym,Dumbbell,Beginner,Pull,0,0,0,0,0,1,0
+GY014,Extensión de Tríceps,Extensión de tríceps con mancuerna sobre la cabeza,Gym,Dumbbell,Beginner,Push,0,0,0,0,0,1,0
+GY015,Elevación Lateral,Elevación lateral de hombro con mancuernas,Gym,Dumbbell,Beginner,Push,0,0,0,0,0,1,0
+GY016,Vuelo Posterior,Vuelo posterior con mancuernas para espalda alta,Gym,Dumbbell,Beginner,Pull,0,0,0,0,0,1,0
+GY017,Curl Martillo,Curl martillo con mancuernas,Gym,Dumbbell,Beginner,Pull,0,0,0,0,0,1,0
+GY018,Elevación de Pantorrilla,Elevación de talones para pantorrilla,Gym,None,Beginner,Squat,0,0,0,0,0,1,0
+GY019,Crunch,Abdominal clásico,Gym,None,Beginner,Core,0,0,0,0,0,1,0
+GY020,Russian Twist,Giro de torso con balón medicinal,Gym,Medicine Ball,Beginner,Core,0,0,0,0,0,1,0
+GY021,Plancha Gimnasio,Plancha isométrica de core,Gym,None,Beginner,Core,0,0,0,0,0,1,0
+GY022,Estiramiento de Cuádriceps Gimnasio,Estiramiento de cuádriceps de pie,Gym,None,Beginner,Squat,0,0,0,0,0,0,1
+GY023,Estiramiento de Isquiotibiales Gimnasio,Estiramiento de isquiotibiales sentado,Gym,None,Beginner,Hinge,0,0,0,0,0,0,1
+GY024,Estiramiento de Hombro Gimnasio,Estiramiento cruzado de hombro,Gym,None,Beginner,Push,0,0,0,0,0,0,1

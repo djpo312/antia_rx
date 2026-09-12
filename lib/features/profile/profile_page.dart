@@ -48,6 +48,7 @@ class ProfilePage extends ConsumerWidget {
     final userName = ref.watch(userNameProvider) ?? "";
     final weeklyCrossfit = ref.watch(weeklyCompletedWodsProvider("crossfit"));
     final weeklyPosparto = ref.watch(weeklyCompletedWodsProvider("posparto"));
+    final weeklyGym = ref.watch(weeklyCompletedWodsProvider("gym"));
 
     final favoriteCrossfit = ref
         .watch(favoriteWodDatesProvider("crossfit"))
@@ -57,7 +58,11 @@ class ProfilePage extends ConsumerWidget {
         .watch(favoriteWodDatesProvider("posparto"))
         .map((date) => (date: date, category: "posparto"))
         .toList();
-    final favorites = [...favoriteCrossfit, ...favoritePosparto]
+    final favoriteGym = ref
+        .watch(favoriteWodDatesProvider("gym"))
+        .map((date) => (date: date, category: "gym"))
+        .toList();
+    final favorites = [...favoriteCrossfit, ...favoritePosparto, ...favoriteGym]
       ..sort((a, b) => b.date.compareTo(a.date));
 
     return Scaffold(
@@ -126,6 +131,21 @@ class ProfilePage extends ConsumerWidget {
                     ),
                   ),
                 ),
+                const Divider(height: 1),
+                ListTile(
+                  leading: const Icon(
+                    Icons.sports_gymnastics,
+                    color: Colors.green,
+                  ),
+                  title: const Text("Gimnasio completados esta semana"),
+                  trailing: Text(
+                    "$weeklyGym",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -151,9 +171,11 @@ class ProfilePage extends ConsumerWidget {
                       ),
                       title: Text(formatSpanishDate(favorite.date)),
                       subtitle: Text(
-                        favorite.category == "posparto"
-                            ? "Gym Posparto"
-                            : "CrossFit",
+                        switch (favorite.category) {
+                          "posparto" => "Gym Posparto",
+                          "gym" => "Gimnasio",
+                          _ => "CrossFit",
+                        },
                       ),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => Navigator.push(
