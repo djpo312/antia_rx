@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme.dart';
 import '../../core/app_version.dart';
+import '../../core/motivational_quotes.dart';
 import '../../core/utils/spanish_date.dart';
 import '../../providers/app_storage_provider.dart';
 import '../crossfit/crossfit_page.dart';
@@ -66,6 +67,10 @@ class DashboardPage extends ConsumerWidget {
                 color: AppTheme.accent,
               ),
             ),
+
+            const SizedBox(height: 20),
+
+            _motivationalQuoteCard(),
 
             const SizedBox(height: 20),
 
@@ -153,6 +158,50 @@ class DashboardPage extends ConsumerWidget {
                     const Text("🏆 PR nuevos: 0"),
                   ],
                 ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Frase motivacional de deporte, distinta cada día (misma idea que la
+  /// semilla del WOD): se calcula a partir de la fecha, así que no hace
+  /// falta guardar nada ni pedir datos, y coincide en todas las pantallas.
+  Widget _motivationalQuoteCard() {
+    final quote = quoteForDate(DateTime.now());
+
+    return Card(
+      color: AppTheme.accent.withValues(alpha: 0.12),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.format_quote, color: AppTheme.accent),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    quote.text,
+                    style: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    "— ${quote.author}",
+                    style: const TextStyle(
+                      color: Colors.white60,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

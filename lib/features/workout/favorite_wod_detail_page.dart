@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/utils/spanish_date.dart';
 import '../../providers/exercise_repository_provider.dart';
 import 'generators/gym_generator.dart';
+import 'generators/hyrox_generator.dart';
 import 'generators/postpartum_generator.dart';
+import 'generators/running_generator.dart';
 import 'workout_generator.dart';
 import 'workout_model.dart';
 import 'workout_provider.dart';
@@ -21,7 +23,7 @@ class FavoriteWodDetailPage extends ConsumerWidget {
 
   final DateTime date;
 
-  /// "crossfit", "posparto" o "gym".
+  /// "crossfit", "posparto", "gym", "running" o "hyrox".
   final String category;
 
   Future<WorkoutModel> _regenerate(WidgetRef ref) {
@@ -33,6 +35,10 @@ class FavoriteWodDetailPage extends ConsumerWidget {
         return PostpartumGenerator(repository, seed: seed).generate();
       case "gym":
         return GymGenerator(repository, seed: seed).generate();
+      case "running":
+        return RunningGenerator(repository, seed: seed).generate();
+      case "hyrox":
+        return HyroxGenerator(repository, seed: seed).generate();
       default:
         return WorkoutGenerator(repository, seed: seed).generate();
     }

@@ -49,6 +49,8 @@ class ProfilePage extends ConsumerWidget {
     final weeklyCrossfit = ref.watch(weeklyCompletedWodsProvider("crossfit"));
     final weeklyPosparto = ref.watch(weeklyCompletedWodsProvider("posparto"));
     final weeklyGym = ref.watch(weeklyCompletedWodsProvider("gym"));
+    final weeklyRunning = ref.watch(weeklyCompletedWodsProvider("running"));
+    final weeklyHyrox = ref.watch(weeklyCompletedWodsProvider("hyrox"));
 
     final favoriteCrossfit = ref
         .watch(favoriteWodDatesProvider("crossfit"))
@@ -62,8 +64,22 @@ class ProfilePage extends ConsumerWidget {
         .watch(favoriteWodDatesProvider("gym"))
         .map((date) => (date: date, category: "gym"))
         .toList();
-    final favorites = [...favoriteCrossfit, ...favoritePosparto, ...favoriteGym]
-      ..sort((a, b) => b.date.compareTo(a.date));
+    final favoriteRunning = ref
+        .watch(favoriteWodDatesProvider("running"))
+        .map((date) => (date: date, category: "running"))
+        .toList();
+    final favoriteHyrox = ref
+        .watch(favoriteWodDatesProvider("hyrox"))
+        .map((date) => (date: date, category: "hyrox"))
+        .toList();
+    final favorites =
+        [
+          ...favoriteCrossfit,
+          ...favoritePosparto,
+          ...favoriteGym,
+          ...favoriteRunning,
+          ...favoriteHyrox,
+        ]..sort((a, b) => b.date.compareTo(a.date));
 
     return Scaffold(
       appBar: AppBar(title: const Text('Perfil')),
@@ -146,6 +162,36 @@ class ProfilePage extends ConsumerWidget {
                     ),
                   ),
                 ),
+                const Divider(height: 1),
+                ListTile(
+                  leading: const Icon(
+                    Icons.directions_run,
+                    color: Colors.green,
+                  ),
+                  title: const Text("Running completados esta semana"),
+                  trailing: Text(
+                    "$weeklyRunning",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const Divider(height: 1),
+                ListTile(
+                  leading: const Icon(
+                    Icons.local_fire_department,
+                    color: Colors.green,
+                  ),
+                  title: const Text("Hyrox completados esta semana"),
+                  trailing: Text(
+                    "$weeklyHyrox",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -174,6 +220,8 @@ class ProfilePage extends ConsumerWidget {
                         switch (favorite.category) {
                           "posparto" => "Gym Posparto",
                           "gym" => "Gimnasio",
+                          "running" => "Running",
+                          "hyrox" => "Hyrox",
                           _ => "CrossFit",
                         },
                       ),

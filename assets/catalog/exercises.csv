@@ -172,3 +172,58 @@ GY045,Elevación Lateral en Máquina,Abducción de hombro sentado en máquina,Gy
 GY046,Curl de Bíceps en Máquina,Flexión de codo sentado en máquina,Gym,Machine,Beginner,Pull,0,0,0,0,0,1,0
 GY047,Extensión de Tríceps en Polea,Extensión de codo de pie con polea alta,Gym,Machine,Beginner,Push,0,0,0,0,0,1,0
 GY048,Fondos en Máquina Asistida,Fondo de tríceps asistido en máquina,Gym,Machine,Intermediate,Push,0,0,1,0,0,0,0
+RU001,Trote Suave de Activación,Trote suave para elevar la temperatura corporal antes de correr,Running,None,Beginner,Run,1,0,0,0,0,0,0
+RU002,Skipping Alto,Elevación de rodillas al pecho trotando en el sitio,Running,None,Beginner,Run,1,0,0,0,0,0,0
+RU003,Talón a Glúteo,Flexión de rodilla llevando el talón hacia el glúteo trotando,Running,None,Beginner,Run,1,0,0,0,0,0,0
+RU004,Zancada Lateral (Carioca),Desplazamiento lateral cruzando los pies alternadamente,Running,None,Beginner,Run,1,0,0,0,0,0,0
+RU005,Círculos de Tobillo,Movilidad articular de tobillo antes de correr,Running,None,Beginner,Core,1,0,0,0,0,0,0
+RU006,Elevación de Rodilla Caminando,Zancada caminando llevando la rodilla al pecho,Running,None,Beginner,Lunge,1,0,0,0,0,0,0
+RU007,Balanceo de Pierna (Leg Swings),Balanceo de pierna hacia adelante y atrás sujeto a un apoyo,Running,None,Beginner,Hinge,1,0,0,0,0,0,0
+RU008,Trote con Skipping Progresivo,Trote suave que progresa a zancada corta y rápida,Running,None,Beginner,Run,1,0,0,0,0,0,0
+RU009,Series de 400 Metros,8 repeticiones de 400m a ritmo fuerte con descanso entre series,Running,None,Advanced,Run,0,0,1,0,0,0,0
+RU010,Series de 800 Metros,5 repeticiones de 800m a ritmo de carrera con descanso entre series,Running,None,Intermediate,Run,0,0,1,0,0,0,0
+RU011,Series de 1000 Metros,4 repeticiones de 1000m a ritmo umbral con descanso entre series,Running,None,Advanced,Run,0,0,1,0,0,0,0
+RU012,Fartlek 30/30,20 minutos alternando 30 segundos fuertes y 30 segundos suaves,Running,None,Intermediate,Run,0,0,1,0,0,0,0
+RU013,Carrera Tempo,20 minutos continuos a ritmo de umbral (cómodamente duro),Running,None,Advanced,Run,0,0,1,0,0,0,0
+RU014,Carrera Larga (Long Run),60 a 90 minutos a ritmo suave y conversacional,Running,None,Intermediate,Run,0,0,1,0,0,0,0
+RU015,Repeticiones en Cuesta,8 repeticiones de 100m subiendo una cuesta a máxima intensidad,Running,None,Advanced,Run,0,0,1,0,0,0,0
+RU016,Progresivo de 5 km,5km empezando suave y acelerando hasta terminar fuerte,Running,None,Intermediate,Run,0,0,1,0,0,0,0
+RU017,Series de 200 Metros,10 repeticiones de 200m a velocidad con descanso completo,Running,None,Advanced,Run,0,0,1,0,0,0,0
+RU018,Carrera Continua Moderada,30 minutos continuos a ritmo moderado y constante,Running,None,Beginner,Run,0,0,1,0,0,0,0
+RU019,Pirámide de Series,200 - 400 - 800 - 400 - 200 metros con descanso entre cada tramo,Running,None,Advanced,Run,0,0,1,0,0,0,0
+RU020,Cuestas Cortas Explosivas,10 repeticiones de 50m en cuesta a máxima potencia,Running,None,Advanced,Run,0,0,1,0,0,0,0
+RU021,Trote de Recuperación,20 a 30 minutos muy suaves para recuperar entre sesiones fuertes,Running,None,Beginner,Run,0,0,1,0,0,0,0
+RU022,Puente de Glúteo a Una Pierna,Puente de cadera unilateral para fuerza de glúteo,Running,None,Beginner,Hinge,0,0,0,0,0,1,0
+RU023,Plancha Lateral,Sostén lateral para estabilidad de cadera al correr,Running,None,Beginner,Core,0,0,0,0,0,1,0
+RU024,Sentadilla Búlgara,Sentadilla unilateral con pie trasero elevado,Running,None,Intermediate,Lunge,0,0,0,0,0,1,0
+RU025,Almeja (Clamshell),Rotación de cadera en decúbito lateral para glúteo medio,Running,None,Beginner,Hinge,0,0,0,0,0,1,0
+RU026,Zancadas Caminando,Zancadas alternadas avanzando en línea recta,Running,None,Beginner,Lunge,0,0,0,0,0,1,0
+RU027,Plancha Frontal,Sostén de core en posición de plancha,Running,None,Beginner,Core,0,0,0,0,0,1,0
+RU028,Estiramiento de Cuádriceps de Pie,Sostén del tobillo llevando el talón al glúteo de pie,Running,None,Beginner,Run,0,0,0,0,0,0,1
+RU029,Estiramiento de Isquiotibiales,Flexión de tronco con pierna extendida para isquiotibiales,Running,None,Beginner,Hinge,0,0,0,0,0,0,1
+RU030,Estiramiento de Pantorrilla en Pared,Empuje contra la pared con talón en el piso para el gemelo,Running,None,Beginner,Run,0,0,0,0,0,0,1
+RU031,Estiramiento de Flexor de Cadera,Zancada baja sosteniendo el estiramiento de cadera,Running,None,Beginner,Lunge,0,0,0,0,0,0,1
+RU032,Estiramiento de Glúteo Sentado,Postura de figura 4 sentado para el glúteo,Running,None,Beginner,Core,0,0,0,0,0,0,1
+RU033,Caminata de Recuperación,5 minutos caminando suave para bajar pulsaciones,Running,None,Beginner,Run,0,0,0,0,0,0,1
+HY001,Trote Suave de Activación,Trote suave para preparar el cuerpo antes de la simulación Hyrox,Hyrox,None,Beginner,Run,1,0,0,0,0,0,0
+HY002,Movilidad Dinámica de Cadera,Zancada con rotación de tronco para activar cadera y core,Hyrox,None,Beginner,Lunge,1,0,0,0,0,0,0
+HY003,Remo Suave de Activación,2 minutos de remo suave en el Concept2 para activar el tren superior,Hyrox,Concept2 Rower,Beginner,Pull,1,0,0,0,0,0,0
+HY004,Sentadilla con Salto Suave,Sentadillas con salto ligero para activar las piernas,Hyrox,None,Beginner,Squat,1,0,0,0,0,0,0
+HY005,SkiErg 1000m,1000 metros en la máquina de esquí a ritmo de carrera,Hyrox,SkiErg,Advanced,Pull,0,0,1,0,0,0,0
+HY006,Sled Push,Empuje de trineo cargado 50 metros,Hyrox,Sled,Advanced,Push,0,0,1,0,0,0,0
+HY007,Sled Pull,Arrastre de trineo cargado con cuerda 50 metros,Hyrox,Sled,Advanced,Pull,0,0,1,0,0,0,0
+HY008,Burpee Broad Jump,Burpee seguido de salto largo al frente en 80 metros,Hyrox,None,Advanced,Jump,0,0,1,0,0,0,0
+HY009,Remo 1000m,1000 metros en el Concept2 Rower a ritmo de carrera,Hyrox,Concept2 Rower,Advanced,Pull,0,0,1,0,0,0,0
+HY010,Farmers Carry Hyrox,Acarreo de dos kettlebells cargadas 200 metros,Hyrox,Kettlebell,Advanced,Carry,0,0,1,0,0,0,0
+HY011,Sandbag Lunges,Zancadas caminando con saco de arena al hombro en 100 metros,Hyrox,Sandbag,Advanced,Lunge,0,0,1,0,0,0,0
+HY012,Wall Balls Hyrox,75 a 100 repeticiones de wall ball al objetivo,Hyrox,Wall Ball,Advanced,Squat,0,0,1,0,0,0,0
+HY013,Carrera de Estación 1 km,1 kilómetro de carrera entre estaciones a ritmo controlado,Hyrox,None,Intermediate,Run,0,0,1,0,0,0,0
+HY014,Carrera Comprometida,Trote corto justo después de una estación para simular fatiga,Hyrox,None,Intermediate,Run,0,0,0,0,0,1,0
+HY015,Sostén de Agarre (Farmers Hold),Sostén isométrico de kettlebells pesadas de pie,Hyrox,Kettlebell,Intermediate,Carry,0,0,0,0,0,1,0
+HY016,Plancha con Toque de Hombro,Plancha alternando toques de hombro para core anti-rotación,Hyrox,None,Beginner,Core,0,0,0,0,0,1,0
+HY017,Zancadas con Salto,Zancadas alternadas con impulso de salto para potencia de pierna,Hyrox,None,Intermediate,Lunge,0,0,0,0,0,1,0
+HY018,Remo por Intervalos,Series cortas de remo fuerte con descanso incompleto,Hyrox,Concept2 Rower,Intermediate,Pull,0,0,0,0,0,1,0
+HY019,Caminata de Recuperación,5 minutos caminando suave para bajar pulsaciones,Hyrox,None,Beginner,Run,0,0,0,0,0,0,1
+HY020,Estiramiento de Cuádriceps de Pie,Sostén del tobillo llevando el talón al glúteo de pie,Hyrox,None,Beginner,Run,0,0,0,0,0,0,1
+HY021,Estiramiento de Dorsales,Estiramiento de espalda alta sujetando un apoyo,Hyrox,None,Beginner,Pull,0,0,0,0,0,0,1
+HY022,Estiramiento de Antebrazo y Agarre,Extensión de muñeca para liberar el antebrazo tras los acarreos,Hyrox,None,Beginner,Carry,0,0,0,0,0,0,1

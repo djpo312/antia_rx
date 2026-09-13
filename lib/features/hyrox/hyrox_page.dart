@@ -1,16 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HyroxPage extends StatelessWidget {
+import '../../core/widgets/workout_timer.dart';
+import '../../core/utils/spanish_date.dart';
+import '../workout/wod_completion_toggle.dart';
+import '../workout/wod_favorite_toggle.dart';
+import '../workout/workout_provider.dart';
+import '../workout/workout_sections_view.dart';
+
+/// Sesión de Hyrox del día: misma estructura que CrossFit/Gimnasio (fecha,
+/// secciones, marcar hecho, cronómetro, favorito) con un generador propio
+/// que simula la carrera oficial: 1km de carrera + estación, repetido con
+/// un subconjunto de las 8 estaciones reales de Hyrox.
+class HyroxPage extends ConsumerWidget {
   const HyroxPage({super.key});
 
+  static const _category = "hyrox";
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dailyWorkout = ref.watch(dailyHyroxWorkoutProvider);
+
     return Scaffold(
       appBar: AppBar(title: const Text("Hyrox")),
-      body: const Center(
-        child: Text(
-          "Entrenamientos de Hyrox",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      body: dailyWorkout.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, _) => Center(child: Text(error.toString())),
+        data: (workout) => ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            Text(
+              formatSpanishDate(DateTime.now()),
+              style: const TextStyle(color: Colors.grey, fontSize: 15),
+            ),
+
+            const SizedBox(height: 8),
+
+            WorkoutSectionsView(workout: workout),
+
+            const SizedBox(height: 15),
+
+            const WodCompletionToggle(category: _category),
+
+            const SizedBox(height: 15),
+
+            const WorkoutTimer(),
+
+            const SizedBox(height: 15),
+
+            const WodFavoriteToggle(category: _category),
+          ],
         ),
       ),
     );

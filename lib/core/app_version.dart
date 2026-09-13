@@ -2,8 +2,8 @@
 ///
 /// Convención: cada vez que se hace un cambio en la app se sube el número
 /// después del punto (1.0 -> 1.1 -> 1.2 ...). Debe mantenerse en sync con
-/// el campo `version:` de `pubspec.yaml` (ej. "1.7" aquí <-> "1.7.0+8" ahí).
-const String appVersion = "1.7";
+/// el campo `version:` de `pubspec.yaml` (ej. "1.8" aquí <-> "1.8.0+9" ahí).
+const String appVersion = "1.8";
 
 /// Versión del catálogo de ejercicios (assets/catalog/exercises.csv y
 /// compañía). El catálogo solo se siembra una vez en la base de datos
@@ -12,4 +12,4 @@ const String appVersion = "1.7";
 /// cambie el contenido de esos CSV: al arrancar, si el número guardado
 /// en el teléfono no coincide con este, se reimporta el catálogo
 /// automáticamente (sin necesidad de desinstalar la app).
-const int catalogVersion = 4;
+const int catalogVersion = 5;

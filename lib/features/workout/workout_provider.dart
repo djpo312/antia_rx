@@ -2,7 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/exercise_repository_provider.dart';
 import 'generators/gym_generator.dart';
+import 'generators/hyrox_generator.dart';
 import 'generators/postpartum_generator.dart';
+import 'generators/running_generator.dart';
 import 'workout_generator.dart';
 import 'workout_model.dart';
 
@@ -48,6 +50,26 @@ final dailyPostpartumWorkoutProvider = FutureProvider<WorkoutModel>((
 final dailyGymWorkoutProvider = FutureProvider<WorkoutModel>((ref) async {
   final repository = ref.watch(exerciseRepositoryProvider);
   final generator = GymGenerator(repository, seed: _todaySeed());
+
+  return generator.generate();
+});
+
+/// Igual que [dailyWorkoutProvider] pero para la sesión de Running (drills
+/// de activación + bloque principal de carrera que varía cada día +
+/// fuerza complementaria + estiramientos).
+final dailyRunningWorkoutProvider = FutureProvider<WorkoutModel>((ref) async {
+  final repository = ref.watch(exerciseRepositoryProvider);
+  final generator = RunningGenerator(repository, seed: _todaySeed());
+
+  return generator.generate();
+});
+
+/// Igual que [dailyWorkoutProvider] pero para la sesión de Hyrox
+/// (simulación de carrera + estación, repetido con un subconjunto de las
+/// 8 estaciones oficiales).
+final dailyHyroxWorkoutProvider = FutureProvider<WorkoutModel>((ref) async {
+  final repository = ref.watch(exerciseRepositoryProvider);
+  final generator = HyroxGenerator(repository, seed: _todaySeed());
 
   return generator.generate();
 });

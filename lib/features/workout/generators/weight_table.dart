@@ -67,6 +67,11 @@ const Map<String, double> _rxWeightsLb = {
   "Jalón al Pecho": 100,
   "Remo en Máquina Sentado": 100,
   "Press de Hombro en Máquina": 70,
+
+  // Hyrox (estaciones con carga externa)
+  "Farmers Carry Hyrox": 50,
+  "Sandbag Lunges": 40,
+  "Wall Balls Hyrox": 20,
 };
 
 /// Sugerencia de peso para los 3 niveles estándar de CrossFit.
