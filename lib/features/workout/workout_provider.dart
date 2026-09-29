@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../providers/database_provider.dart';
 import '../../providers/exercise_repository_provider.dart';
+import '../../repositories/custom_wod_repository.dart';
 import 'generators/gym_generator.dart';
 import 'generators/hyrox_generator.dart';
 import 'generators/postpartum_generator.dart';
@@ -24,10 +26,24 @@ int dateSeed(DateTime date) => date.year * 10000 + date.month * 100 + date.day;
 
 int _todaySeed() => dateSeed(DateTime.now());
 
-/// Entrenamiento del día: se genera una sola vez por fecha y se comparte
-/// entre el Dashboard y la pantalla de CrossFit, para que ambos muestren
-/// exactamente el mismo WOD mientras dure el día.
+/// Provider para acceder al repositorio de WODs personalizados.
+final customWodRepositoryProvider = Provider<CustomWodRepository>((ref) {
+  final database = ref.watch(databaseProvider);
+  return CustomWodRepository(database);
+});
+
+/// Entrenamiento del día: primero intenta cargar un WOD personalizado de hoy.
+/// Si no existe, genera uno automáticamente con el generador.
 final dailyWorkoutProvider = FutureProvider<WorkoutModel>((ref) async {
+  final customWodRepo = ref.watch(customWodRepositoryProvider);
+
+  // Intenta cargar WOD personalizado de hoy
+  final customWod = await customWodRepo.getTodayCustomWod();
+  if (customWod != null) {
+    return customWod;
+  }
+
+  // Si no existe, genera uno automáticamente
   final repository = ref.watch(exerciseRepositoryProvider);
   final generator = WorkoutGenerator(repository, seed: _todaySeed());
 

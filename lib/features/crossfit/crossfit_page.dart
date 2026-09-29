@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/workout_timer.dart';
 import '../../core/utils/spanish_date.dart';
+import '../workout/custom_wod_editor_page.dart';
 import '../workout/wod_completion_toggle.dart';
 import '../workout/wod_favorite_toggle.dart';
 import '../workout/workout_provider.dart';
@@ -45,6 +46,18 @@ class CrossfitPage extends ConsumerWidget {
             const WodFavoriteToggle(),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CustomWodEditorPage(),
+            ),
+          );
+        },
+        tooltip: 'Crear WOD personalizado',
+        child: const Icon(Icons.edit),
       ),
     );
   }

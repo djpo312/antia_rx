@@ -225,6 +225,33 @@ class AppDatabase extends _$AppDatabase {
       );
     }).toList();
   }
+
+  /// Obtiene WODs personalizados (de tipo 'crossfit') dentro de un rango de fechas.
+  Future<List<Workout>> customWorkoutsForDateRange(
+    DateTime startDate,
+    DateTime endDate,
+  ) {
+    return (select(workouts)
+          ..where((w) =>
+              w.createdAt.isBiggerOrEqualValue(startDate) &
+              w.createdAt.isSmallerOrEqualValue(endDate) &
+              w.type.equals('crossfit'))
+          ..orderBy([(w) => OrderingTerm.desc(w.createdAt)]))
+        .get();
+  }
+
+  /// Elimina WODs personalizados dentro de un rango de fechas.
+  Future<int> deleteCustomWorkoutsForDateRange(
+    DateTime startDate,
+    DateTime endDate,
+  ) {
+    return (delete(workouts)
+          ..where((w) =>
+              w.createdAt.isBiggerOrEqualValue(startDate) &
+              w.createdAt.isSmallerOrEqualValue(endDate) &
+              w.type.equals('crossfit')))
+        .go();
+  }
 }
 
 class WorkoutSections extends Table {

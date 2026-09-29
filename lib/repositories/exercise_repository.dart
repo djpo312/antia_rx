@@ -140,6 +140,17 @@ class ExerciseRepository {
         .get();
   }
 
+  /// Obtiene todos los ejercicios de una categoría (sin filtrar por tipo).
+  /// Úsalo para el picker de WOD personalizado.
+  Future<List<Exercise>> getExercisesByCategory(String categoryName) async {
+    final category = await database.getCategoryByName(categoryName);
+    if (category == null) return [];
+
+    return (database.select(database.exercises)
+          ..where((tbl) => tbl.categoryId.equals(category.id)))
+        .get();
+  }
+
   /// Mapa id -> nombre del equipo (Barbell, Dumbbell, Kettlebell, ...),
   /// para mostrar un ícono por tipo de equipo en cada ejercicio.
   Future<Map<int, String>> getEquipmentNames() async {
