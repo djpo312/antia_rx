@@ -1,0 +1,102 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../providers/database_provider.dart';
+import '../../providers/exercise_repository_provider.dart';
+import '../../repositories/custom_wod_repository.dart';
+import '../../repositories/exercise_repository.dart';
+import 'generators/gym_generator.dart';
+import 'generators/hyrox_generator.dart';
+import 'generators/postpartum_generator.dart';
+import 'generators/running_generator.dart';
+import 'workout_generator.dart';
+import 'workout_model.dart';
+
+/// Generador libre: cada vez que se pide un WOD nuevo, sale distinto.
+/// Lo usa la pantalla "Generador de WOD".
+final workoutProvider = Provider<WorkoutGenerator>((ref) {
+  final repository = ref.watch(exerciseRepositoryProvider);
+
+  return WorkoutGenerator(repository);
+});
+
+/// Semilla determinística a partir de una fecha: mismo día -> mismo
+/// número, así el WOD de ese día no cambia si se recarga la app. Público
+/// para poder regenerar (de forma reproducible) el WOD de una fecha
+/// pasada, por ejemplo al abrir un favorito guardado.
+int dateSeed(DateTime date) => date.year * 10000 + date.month * 100 + date.day;
+
+int _todaySeed() => dateSeed(DateTime.now());
+
+/// Genera un WOD de CrossFit para una fecha específica (con seed determinístico).
+Future<WorkoutModel> generateWorkoutForDate(
+  ExerciseRepository repository,
+  DateTime date,
+) async {
+  final seed = dateSeed(date);
+  final generator = WorkoutGenerator(repository, seed: seed);
+  return generator.generate();
+}
+
+/// Provider para acceder al repositorio de WODs personalizados.
+final customWodRepositoryProvider = Provider<CustomWodRepository>((ref) {
+  final database = ref.watch(databaseProvider);
+  return CustomWodRepository(database);
+});
+
+/// Entrenamiento del día: primero intenta cargar un WOD personalizado de hoy.
+/// Si no existe, genera uno automáticamente con el generador.
+final dailyWorkoutProvider = FutureProvider<WorkoutModel>((ref) async {
+  final customWodRepo = ref.watch(customWodRepositoryProvider);
+
+  // Intenta cargar WOD personalizado de hoy
+  final customWod = await customWodRepo.getTodayCustomWod();
+  if (customWod != null) {
+    return customWod;
+  }
+
+  // Si no existe, genera uno automáticamente
+  final repository = ref.watch(exerciseRepositoryProvider);
+  final generator = WorkoutGenerator(repository, seed: _todaySeed());
+
+  return generator.generate();
+});
+
+/// Igual que [dailyWorkoutProvider] pero para la sesión de Gym Posparto
+/// (misma fecha, generador distinto: sin metcon, todo controlado).
+final dailyPostpartumWorkoutProvider = FutureProvider<WorkoutModel>((
+  ref,
+) async {
+  final repository = ref.watch(exerciseRepositoryProvider);
+  final generator = PostpartumGenerator(repository, seed: _todaySeed());
+
+  return generator.generate();
+});
+
+/// Igual que [dailyWorkoutProvider] pero para la sesión de Gimnasio
+/// (misma fecha, generador de fuerza/musculación sin metcon).
+final dailyGymWorkoutProvider = FutureProvider<WorkoutModel>((ref) async {
+  final repository = ref.watch(exerciseRepositoryProvider);
+  final generator = GymGenerator(repository, seed: _todaySeed());
+
+  return generator.generate();
+});
+
+/// Igual que [dailyWorkoutProvider] pero para la sesión de Running (drills
+/// de activación + bloque principal de carrera que varía cada día +
+/// fuerza complementaria + estiramientos).
+final dailyRunningWorkoutProvider = FutureProvider<WorkoutModel>((ref) async {
+  final repository = ref.watch(exerciseRepositoryProvider);
+  final generator = RunningGenerator(repository, seed: _todaySeed());
+
+  return generator.generate();
+});
+
+/// Igual que [dailyWorkoutProvider] pero para la sesión de Hyrox
+/// (simulación de carrera + estación, repetido con un subconjunto de las
+/// 8 estaciones oficiales).
+final dailyHyroxWorkoutProvider = FutureProvider<WorkoutModel>((ref) async {
+  final repository = ref.watch(exerciseRepositoryProvider);
+  final generator = HyroxGenerator(repository, seed: _todaySeed());
+
+  return generator.generate();
+});
