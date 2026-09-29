@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/database_provider.dart';
 import '../../providers/exercise_repository_provider.dart';
 import '../../repositories/custom_wod_repository.dart';
+import '../../repositories/exercise_repository.dart';
 import 'generators/gym_generator.dart';
 import 'generators/hyrox_generator.dart';
 import 'generators/postpartum_generator.dart';
@@ -25,6 +26,16 @@ final workoutProvider = Provider<WorkoutGenerator>((ref) {
 int dateSeed(DateTime date) => date.year * 10000 + date.month * 100 + date.day;
 
 int _todaySeed() => dateSeed(DateTime.now());
+
+/// Genera un WOD de CrossFit para una fecha específica (con seed determinístico).
+Future<WorkoutModel> generateWorkoutForDate(
+  ExerciseRepository repository,
+  DateTime date,
+) async {
+  final seed = dateSeed(date);
+  final generator = WorkoutGenerator(repository, seed: seed);
+  return generator.generate();
+}
 
 /// Provider para acceder al repositorio de WODs personalizados.
 final customWodRepositoryProvider = Provider<CustomWodRepository>((ref) {
