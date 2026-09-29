@@ -8,7 +8,9 @@ import 'workout_model.dart';
 import 'workout_provider.dart';
 
 class CustomWodEditorPage extends ConsumerStatefulWidget {
-  const CustomWodEditorPage({Key? key}) : super(key: key);
+  final DateTime? initialDate;
+
+  const CustomWodEditorPage({Key? key, this.initialDate}) : super(key: key);
 
   @override
   ConsumerState<CustomWodEditorPage> createState() =>
@@ -18,6 +20,7 @@ class CustomWodEditorPage extends ConsumerStatefulWidget {
 class _CustomWodEditorPageState extends ConsumerState<CustomWodEditorPage> {
   late List<List<WorkoutExerciseModel>> sections;
   final _titleController = TextEditingController(text: 'Mi WOD Custom');
+  late DateTime _selectedDate;
 
   final _sectionNames = [
     'Calentamiento',
@@ -30,6 +33,7 @@ class _CustomWodEditorPageState extends ConsumerState<CustomWodEditorPage> {
   void initState() {
     super.initState();
     sections = [[], [], [], []];
+    _selectedDate = widget.initialDate ?? DateTime.now();
   }
 
   @override
@@ -48,6 +52,27 @@ class _CustomWodEditorPageState extends ConsumerState<CustomWodEditorPage> {
     setState(() {
       sections[sectionIdx].removeAt(exerciseIdx);
     });
+  }
+
+  bool _isToday(DateTime date) {
+    final now = DateTime.now();
+    return date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day;
+  }
+
+  Future<void> _selectDate() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2024),
+      lastDate: DateTime(2099),
+    );
+    if (picked != null) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
   }
 
   Future<void> _saveWod() async {
@@ -84,10 +109,12 @@ class _CustomWodEditorPageState extends ConsumerState<CustomWodEditorPage> {
     // Guarda en la BD
     try {
       final customWodRepo = ref.read(customWodRepositoryProvider);
-      await customWodRepo.saveCustomWod(workout);
+      await customWodRepo.saveCustomWodForDate(workout, _selectedDate);
 
-      // Invalida el provider para que recargue el WOD
-      ref.invalidate(dailyWorkoutProvider);
+      // Invalida el provider para que recargue el WOD (si es hoy)
+      if (_isToday(_selectedDate)) {
+        ref.invalidate(dailyWorkoutProvider);
+      }
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -122,6 +149,19 @@ class _CustomWodEditorPageState extends ConsumerState<CustomWodEditorPage> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ListTile(
+              title: const Text('Fecha'),
+              subtitle: Text(
+                '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}',
+              ),
+              trailing: const Icon(Icons.calendar_today),
+              onTap: _selectDate,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: const BorderSide(color: Colors.grey),
               ),
             ),
             const SizedBox(height: 20),
@@ -354,7 +394,7 @@ class _ExercisePickerDialog extends ConsumerWidget {
       content: SizedBox(
         width: double.maxFinite,
         child: FutureBuilder(
-          future: exerciseRepoAsync.getExercisesByCategory('crossfit'),
+          future: exerciseRepoAsync.getExercisesByCategory('CrossFit'),
           builder: (ctx, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());

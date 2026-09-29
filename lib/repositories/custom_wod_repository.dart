@@ -23,23 +23,31 @@ class CustomWodRepository {
     return _workoutToDomain(workout);
   }
 
-  /// Guarda un WOD personalizado (reemplaza si ya existe uno de hoy).
-  Future<int> saveCustomWod(WorkoutModel model) async {
-    // Primero, elimina cualquier WOD personalizado de hoy
-    final today = DateTime.now();
-    final startOfDay = DateTime(today.year, today.month, today.day);
-    final endOfDay = DateTime(today.year, today.month, today.day, 23, 59, 59, 999);
+  /// Guarda un WOD personalizado para una fecha específica.
+  /// Reemplaza si ya existe uno para ese día.
+  Future<int> saveCustomWodForDate(WorkoutModel model, DateTime date) async {
+    final startOfDay = DateTime(date.year, date.month, date.day);
+    final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59, 999);
 
     await database.deleteCustomWorkoutsForDateRange(startOfDay, endOfDay);
 
-    // Luego, guarda el nuevo
+    return _saveWorkout(model, date);
+  }
+
+  /// Guarda un WOD personalizado (por compatibilidad, usa hoy).
+  Future<int> saveCustomWod(WorkoutModel model) async {
+    return saveCustomWodForDate(model, DateTime.now());
+  }
+
+  Future<int> _saveWorkout(WorkoutModel model, DateTime createdDate) async {
     final workoutId = await database.into(database.workouts).insert(
-          WorkoutsCompanion.insert(
-            name: model.title,
-            description: model.sections.map((s) => s.name).join(', '),
-            type: 'crossfit',
-            level: 'Custom',
-            estimatedMinutes: model.totalMinutes,
+          WorkoutsCompanion(
+            name: Value(model.title),
+            description: Value(model.sections.map((s) => s.name).join(', ')),
+            type: Value('crossfit'),
+            level: Value('Custom'),
+            estimatedMinutes: Value(model.totalMinutes),
+            createdAt: Value(createdDate),
           ),
         );
 
