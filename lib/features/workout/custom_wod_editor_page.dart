@@ -19,6 +19,7 @@ class CustomWodEditorPage extends ConsumerStatefulWidget {
 
 class _CustomWodEditorPageState extends ConsumerState<CustomWodEditorPage> {
   late List<List<WorkoutExerciseModel>> sections;
+  late List<int> sectionDurations; // Duración en minutos de cada sección
   final _titleController = TextEditingController(text: 'Mi WOD Custom');
   late DateTime _selectedDate;
   bool _isLoading = true;
@@ -34,6 +35,7 @@ class _CustomWodEditorPageState extends ConsumerState<CustomWodEditorPage> {
   void initState() {
     super.initState();
     sections = [[], [], [], []];
+    sectionDurations = [10, 40, 10, 5]; // Tiempos por defecto
     _selectedDate = widget.initialDate ?? DateTime.now();
     _loadInitialWorkout();
   }
@@ -43,26 +45,23 @@ class _CustomWodEditorPageState extends ConsumerState<CustomWodEditorPage> {
       final customWodRepo = ref.read(customWodRepositoryProvider);
       final existingWod = await customWodRepo.getTodayCustomWod();
 
+      WorkoutModel workoutToLoad;
+
       if (existingWod != null && _isToday(_selectedDate)) {
-        // Si hay un WOD personalizado para hoy, cárgalo
-        setState(() {
-          _titleController.text = existingWod.title;
-          sections = existingWod.sections
-              .map((section) => [...section.exercises])
-              .toList();
-        });
+        workoutToLoad = existingWod;
       } else {
-        // Si no, carga el WOD generado automáticamente para hoy
         final repository = ref.read(exerciseRepositoryProvider);
-        final generatedWod =
-            await generateWorkoutForDate(repository, _selectedDate);
-        setState(() {
-          _titleController.text = generatedWod.title;
-          sections = generatedWod.sections
-              .map((section) => [...section.exercises])
-              .toList();
-        });
+        workoutToLoad = await generateWorkoutForDate(repository, _selectedDate);
       }
+
+      setState(() {
+        _titleController.text = workoutToLoad.title;
+        // Asegurar que sections siempre tenga 4 elementos
+        sections = [[], [], [], []];
+        for (int i = 0; i < workoutToLoad.sections.length && i < 4; i++) {
+          sections[i] = [...workoutToLoad.sections[i].exercises];
+        }
+      });
     } catch (e) {
       print('Error cargando WOD: $e');
     } finally {
@@ -286,6 +285,12 @@ class _CustomWodEditorPageState extends ConsumerState<CustomWodEditorPage> {
                       sectionIndex: i,
                       sectionName: _sectionNames[i],
                       exercises: sections[i],
+                      duration: sectionDurations[i],
+                      onDurationChanged: (newDuration) {
+                        setState(() {
+                          sectionDurations[i] = newDuration;
+                        });
+                      },
                       onAddExercise: (exercise) =>
                           _addExerciseToSection(i, exercise),
                       onRemoveExercise: (idx) =>
@@ -321,6 +326,8 @@ class _SectionBuilder extends ConsumerWidget {
   final int sectionIndex;
   final String sectionName;
   final List<WorkoutExerciseModel> exercises;
+  final int duration;
+  final Function(int) onDurationChanged;
   final Function(WorkoutExerciseModel) onAddExercise;
   final Function(int) onRemoveExercise;
   final Function(int, WorkoutExerciseModel) onUpdateExercise;
@@ -329,6 +336,8 @@ class _SectionBuilder extends ConsumerWidget {
     required this.sectionIndex,
     required this.sectionName,
     required this.exercises,
+    required this.duration,
+    required this.onDurationChanged,
     required this.onAddExercise,
     required this.onRemoveExercise,
     required this.onUpdateExercise,
@@ -343,9 +352,46 @@ class _SectionBuilder extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              sectionName,
-              style: Theme.of(context).textTheme.titleLarge,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  sectionName,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: AppTheme.accent.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 40,
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            isDense: true,
+                            border: InputBorder.none,
+                          ),
+                          controller: TextEditingController(
+                            text: duration.toString(),
+                          ),
+                          onChanged: (value) {
+                            final newDuration = int.tryParse(value) ?? duration;
+                            if (newDuration != duration) {
+                              onDurationChanged(newDuration);
+                            }
+                          },
+                        ),
+                      ),
+                      const Text(' min'),
+                    ],
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 12),
             if (exercises.isEmpty)
